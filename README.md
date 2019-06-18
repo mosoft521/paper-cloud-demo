@@ -1,2 +1,2 @@
-# paper-cloud-demo
+# spring-cloud-demo
 SpringCloudDemo
