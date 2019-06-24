@@ -11,5 +11,6 @@
         <module>springcloud-demo-discovery-eureka</module>
         <module>springcloud-demo-provider-user</module>
         <module>springcloud-demo-consumer-movie</module>
+        <module>springcloud-demo-consumer-movie-ribbon</module>
     </modules>
 </project>
