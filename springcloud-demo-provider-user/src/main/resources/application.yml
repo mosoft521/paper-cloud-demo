@@ -21,7 +21,9 @@ logging:                                # 配置日志级别，让hibernate打�
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://localhost:8761/eureka/                         #localhost
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
   instance:
-    prefer-ip-address: true
+#    prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+
