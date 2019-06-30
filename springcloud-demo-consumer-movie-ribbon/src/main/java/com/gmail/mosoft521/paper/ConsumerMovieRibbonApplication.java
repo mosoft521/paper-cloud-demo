@@ -9,9 +9,9 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class ConsumerMovieApplication {
+public class ConsumerMovieRibbonApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ConsumerMovieApplication.class, args);
+        SpringApplication.run(ConsumerMovieRibbonApplication.class, args);
     }
 
     @Bean
