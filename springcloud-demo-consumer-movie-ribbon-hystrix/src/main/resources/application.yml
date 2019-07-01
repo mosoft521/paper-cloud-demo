@@ -2,7 +2,7 @@ server:
   port: 8010
 spring:
   application:
-    name: microservice-consumer-movie-ribbon-hystrix
+    name: springcloud-demo-consumer-movie-ribbon-hystrix
 eureka:
   client:
     serviceUrl:
