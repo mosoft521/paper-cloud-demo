@@ -4,6 +4,4 @@ spring:
   application:
     name: springcloud-demo-config-server-native
   profiles:
-    active: native
-#encrypt:
-#  key: alvin
+    active: native  #使用本地文件夹
