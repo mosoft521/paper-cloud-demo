@@ -12,6 +12,12 @@ spring:
     platform: h2                        # 指定数据源类型
     schema: classpath:schema.sql        # 指定h2数据库的建表脚本
     data: classpath:data.sql            # 指定h2数据库的数据脚本
+  #spring.cloud.config.profile=dev
+  #spring.cloud.config.uri=http://localhost:7001/
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+      uri: http://localhost:8888/
 logging:                                # 配置日志级别，让hibernate打印出执行的SQL
   level:
     root: INFO
@@ -21,10 +27,10 @@ logging:                                # 配置日志级别，让hibernate打�
 eureka:
   client:
     serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/                         #localhost
+      #      defaultZone: http://localhost:8761/eureka/                         #localhost
       defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
   instance:
-#    prefer-ip-address: true
+    #    prefer-ip-address: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
 ---
 spring:
@@ -40,7 +46,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/                         #localhost
+      #      defaultZone: http://localhost:8761/eureka/                         #localhost
       defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
 ---
 spring:
@@ -56,5 +62,5 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/                         #localhost
+      #      defaultZone: http://localhost:8761/eureka/                         #localhost
       defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA

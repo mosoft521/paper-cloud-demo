@@ -1,0 +1,9 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: springcloud-demo-config-server-native
+  profiles:
+    active: native
+#encrypt:
+#  key: alvin

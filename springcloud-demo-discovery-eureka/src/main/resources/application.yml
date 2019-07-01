@@ -21,7 +21,7 @@ server:
 eureka:
   instance:
     hostname: peer1                                                     # 指定当profile=peer1时，主机名是peer1
-#    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
+    #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
   client:
     registerWithEureka: true
@@ -36,7 +36,7 @@ server:
 eureka:
   instance:
     hostname: peer2
-#    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
+    #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
   client:
     registerWithEureka: true
