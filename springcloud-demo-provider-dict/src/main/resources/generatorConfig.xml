@@ -33,7 +33,7 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.kakaloans.micro.seal.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gmail.mosoft521.paper.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
