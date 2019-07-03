@@ -15,5 +15,6 @@
         <module>springcloud-demo-consumer-movie-ribbon-hystrix</module>
         <module>springcloud-demo-gateway-zuul</module>
         <module>springcloud-demo-config-server-native</module>
+        <module>springcloud-demo-provider-dict</module>
     </modules>
 </project>

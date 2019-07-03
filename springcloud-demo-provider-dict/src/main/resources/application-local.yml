@@ -1,0 +1,28 @@
+server:
+  port: 8070
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: admin
+    max-active: 1000
+    test-while-idle: false
+    test-on-borrow: true
+    validation-query: select 1
+    remove-abandoned: true
+    remove-abandoned-timeout: 300
+    log-abandoned: true
+    initialize: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka,http://localhost:8762/eureka
+## INFO
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@

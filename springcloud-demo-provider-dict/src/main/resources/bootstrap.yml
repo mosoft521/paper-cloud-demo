@@ -1,0 +1,13 @@
+application:
+  basepackage: com.kakaloans.micro
+mybatis:
+  type-aliases-package: com.gmail.mosoft521.paper.entity
+  config-locations: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+spring:
+  application:
+    name: springcloud-demo-provider-dict    # 对应config server所获取的配置文件的{application}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka,http://localhost:8762/eureka

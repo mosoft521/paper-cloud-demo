@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="E:\java\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <!--            <property name="addRemarkComments" value="true"/>-->
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/demo?useUnicode=true"
+                        userId="root"
+                        password="admin">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.gmail.mosoft521.paper.entity" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+            <property name="" value=""/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="mybatis.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.kakaloans.micro.seal.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!--<table schema="" tableName="t_user" domainObjectName="User">-->
+        <!--&lt;!&ndash;<property name="useActualColumnNames" value="true"/>&ndash;&gt;-->
+        <!--<generatedKey column="id" sqlStatement="SqlServer" identity="true"/>-->
+        <!--&lt;!&ndash;<columnOverride column="DATE_FIELD" property="startDate" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<ignoreColumn column="FRED" />&ndash;&gt;-->
+        <!--&lt;!&ndash;<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="t_cr_chn" domainObjectName="CrChn">-->
+        <!--<generatedKey column="id" sqlStatement="SqlServer" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="t_cr_coa_template" domainObjectName="CrCoaTemplate">-->
+        <!--<generatedKey column="id" sqlStatement="SqlServer" identity="true"/>-->
+        <!--</table>-->
+
+        <!--<table schema="" tableName="t_cr_coa_template_form" domainObjectName="CrCoaTemplateForm">-->
+        <!--<generatedKey column="id" sqlStatement="SqlServer" identity="true"/>-->
+        <!--</table>-->
+
+        <table schema="" tableName="common_dict" domainObjectName="CommonDict" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

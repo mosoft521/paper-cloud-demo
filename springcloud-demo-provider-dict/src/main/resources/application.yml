@@ -1,0 +1,17 @@
+server:
+  port: 8070
+spring:
+  profiles:
+    active: local
+#logging:
+#  level:
+#    org.springframework.cloud: DEBUG
+#    org.springframework.boot: DEBUG
+## INFO
+info:
+  app:
+    name: @project.artifactId@
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
