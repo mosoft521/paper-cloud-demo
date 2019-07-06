@@ -57,10 +57,12 @@
         <!--<generatedKey column="id" sqlStatement="SqlServer" identity="true"/>-->
         <!--</table>-->
 
-        <table schema="" tableName="common_dict" domainObjectName="CommonDict" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <!--<table schema="" tableName="common_dict" domainObjectName="CommonDict" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <table schema="" tableName="common_dict" domainObjectName="CommonDict">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <!--<table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath">
         </table>
 
     </context>
