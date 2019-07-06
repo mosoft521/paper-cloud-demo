@@ -5,8 +5,8 @@ public enum DisabledType {
     //    public static final int ENABLED = 0;
     //    //失效
     //    public static final int DISABLED = 1;
-    ENABLED(0, "等额本金"),
-    DISABLED(1, "等额本息");
+    ENABLED(0, "有效"),
+    DISABLED(1, "失效");
 
     private Integer code;
     private String message;
