@@ -2,9 +2,8 @@ package com.gmail.mosoft521.paper.dao;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface CommonDictMapper {
     long countByExample(CommonDictExample example);
