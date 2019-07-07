@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmail.mosoft521.paper.dao.CommonDictTreePathMapperExt">
+    <resultMap id="BaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonDictTreePath">
+        <id column="ANC_DICT_ID" jdbcType="BIGINT" property="ancDictId" />
+        <id column="DES_DICT_ID" jdbcType="BIGINT" property="desDictId" />
+        <result column="PATH_LENGTH" jdbcType="INTEGER" property="pathLength" />
+        <result column="creater" jdbcType="BIGINT" property="creater" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="modifier" jdbcType="BIGINT" property="modifier" />
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+        <result column="version" jdbcType="BIGINT" property="version" />
+        <result column="disabled" jdbcType="INTEGER" property="disabled" />
+    </resultMap>
+    <select id="findTreeByDesDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+            dtp.anc_dict_id,
+            dtp.des_dict_id,
+            dtp.path_length,
+            dtp.creater,
+            dtp.create_time,
+            dtp.modifier,
+            dtp.modify_time,
+            dtp.version,
+            dtp.disabled
+            FROM
+            common_dict_tree_path dtp
+            inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
+            WHERE
+            dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

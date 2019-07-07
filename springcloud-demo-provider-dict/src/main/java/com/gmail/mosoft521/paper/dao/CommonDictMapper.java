@@ -4,9 +4,7 @@ import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface CommonDictMapper {
     long countByExample(CommonDictExample example);
 

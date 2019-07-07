@@ -2,8 +2,8 @@ package com.gmail.mosoft521.paper.service.impl;
 
 
 import com.gmail.mosoft521.paper.constants.DisabledType;
-import com.gmail.mosoft521.paper.dao.ext.CommonDictMapperExt;
-import com.gmail.mosoft521.paper.dao.ext.CommonDictTreePathMapperExt;
+import com.gmail.mosoft521.paper.dao.CommonDictMapperExt;
+import com.gmail.mosoft521.paper.dao.CommonDictTreePathMapperExt;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExample;
@@ -29,7 +29,8 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public CommonDict findCommonDictByDictId(Long dictId) {
-        return commonDictMapperExt.selectByPrimaryKey(dictId);
+        CommonDict commonDict = commonDictMapperExt.selectByPrimaryKey(dictId);
+        return commonDict;
     }
 
     @Override

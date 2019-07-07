@@ -16,5 +16,6 @@
         <module>springcloud-demo-gateway-zuul</module>
         <module>springcloud-demo-config-server-native</module>
         <module>springcloud-demo-provider-dict</module>
+        <module>springcloud-demo-consumer-dict-ribbon-hystrix</module>
     </modules>
 </project>

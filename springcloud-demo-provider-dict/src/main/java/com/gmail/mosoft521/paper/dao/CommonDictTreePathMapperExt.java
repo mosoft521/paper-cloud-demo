@@ -1,6 +1,5 @@
-package com.gmail.mosoft521.paper.dao.ext;
+package com.gmail.mosoft521.paper.dao;
 
-import com.gmail.mosoft521.paper.dao.CommonDictTreePathMapper;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 import org.springframework.stereotype.Repository;
 
