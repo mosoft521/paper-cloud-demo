@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gmail.mosoft521.paper.dao.ext.CommonDictMapperExt">
+    <select id="findSonsByParentDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
+            WHERE
+            dtp.anc_dict_id = #{parentDictId,jdbcType=BIGINT}
+            AND dtp.path_length = 1
+    </select>
+
+    <select id="findSonsByParentDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
+            WHERE
+            dtp.anc_dict_id = #{parentDictId,jdbcType=BIGINT}
+            AND ( dtp.path_length = 0 or dtp.path_length = 1)
+    </select>
+
+    <select id="findTreeByAncDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
+            WHERE
+            dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+            AND dtp.path_length > 0
+            AND d.dict_id>0
+    </select>
+
+    <select id="findTreeByAncDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
+            WHERE
+            dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+    </select>
+
+    <select id="findTreeByDesDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
+            WHERE
+            dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
+            AND dtp.path_length > 0
+    </select>
+
+    <select id="findTreeByDesDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id,
+            d.dict_code,
+            d.dict_code_text,
+            d.icon_mongodb_key,
+            d.creater,
+            d.create_time,
+            d.modifier,
+            d.modify_time,
+            d.version,
+            d.disabled
+            FROM
+            common_dict_tree_path dtp
+            inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
+            WHERE
+            dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
+            AND dtp.path_length > 0
+    </select>
+
+    <select id="findByParentDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.entity.CommonDict.BaseResultMap">
+        SELECT
+            d.dict_id dictId,
+            d.dict_code_text dictCodeText
+            FROM
+            common_dict_tree_path dtp
+            LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
+            WHERE
+            dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+            AND dtp.path_length = #{pathLength,jdbcType=BIGINT}
+    </select>
+</mapper>
