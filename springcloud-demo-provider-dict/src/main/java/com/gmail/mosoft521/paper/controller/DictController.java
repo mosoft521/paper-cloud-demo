@@ -12,7 +12,7 @@ public class DictController {
     @Autowired
     private DictService dictService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/findCommonDictByDictId/{id}")
     public CommonDict findCommonDictByDictId(@PathVariable Long id) {
         CommonDict commonDict = this.dictService.findCommonDictByDictId(id);
         return commonDict;

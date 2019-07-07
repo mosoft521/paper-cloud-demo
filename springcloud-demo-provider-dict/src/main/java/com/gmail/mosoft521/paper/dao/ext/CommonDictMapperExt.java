@@ -1,5 +1,6 @@
-package com.gmail.mosoft521.paper.dao;
+package com.gmail.mosoft521.paper.dao.ext;
 
+import com.gmail.mosoft521.paper.dao.CommonDictMapper;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import org.springframework.stereotype.Repository;
 

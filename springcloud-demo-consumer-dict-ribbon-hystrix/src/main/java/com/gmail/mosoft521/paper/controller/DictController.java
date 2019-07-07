@@ -23,7 +23,7 @@ public class DictController {
     @HystrixCommand(fallbackMethod = "findByIdFallback")
     @GetMapping("/dict/{id}")
     public CommonDict findCommonDictByDictId(@PathVariable Long id) {
-        CommonDict commonDict = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/" + id, CommonDict.class);
+        CommonDict commonDict = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findCommonDictByDictId/" + id, CommonDict.class);
         return commonDict;
     }
 
