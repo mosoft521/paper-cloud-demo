@@ -5,7 +5,9 @@ import com.gmail.mosoft521.paper.entity.CommonDictTreePathExample;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface CommonDictTreePathMapper {
     long countByExample(CommonDictTreePathExample example);
 

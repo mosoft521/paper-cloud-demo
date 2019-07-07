@@ -2,10 +2,12 @@ package com.gmail.mosoft521.paper.dao.ext;
 
 import com.gmail.mosoft521.paper.dao.CommonDictMapper;
 import com.gmail.mosoft521.paper.entity.CommonDict;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface CommonDictMapperExt extends CommonDictMapper {
     /**
      * 根据父DictID，查找直接子孙DictID，即儿子节点（不包括自身）

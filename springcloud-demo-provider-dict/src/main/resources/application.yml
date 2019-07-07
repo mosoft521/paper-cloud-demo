@@ -1,13 +1,5 @@
 server:
   port: 8070
-spring:
-  profiles:
-    active: local
-#logging:
-#  level:
-#    org.springframework.cloud: DEBUG
-#    org.springframework.boot: DEBUG
-## INFO
 info:
   app:
     name: @project.artifactId@
@@ -15,3 +7,49 @@ info:
     java:
       source: @java.version@
       target: @java.version@
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: admin
+    max-active: 1000
+    test-while-idle: false
+    test-on-borrow: true
+    validation-query: select 1
+    remove-abandoned: true
+    remove-abandoned-timeout: 300
+    log-abandoned: true
+    initialize: false
+---
+spring:
+  profiles: peer1                                                       # 指定profile=peer1
+server:
+  port: 8070                                                             # 指定该Eureka实例的端口
+eureka:
+  instance:
+    hostname: peer1                                                     # 指定当profile=peer1时，主机名是peer1
+    #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #      defaultZone: http://localhost:8761/eureka/                         #localhost
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
+---
+spring:
+  profiles: peer2
+server:
+  port: 8071
+eureka:
+  instance:
+    hostname: peer2
+    #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      #      defaultZone: http://localhost:8761/eureka/                         #localhost
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA

@@ -1,9 +1,9 @@
 application:
-  basepackage: com.kakaloans.micro
+  basepackage: com.gmail.mosoft521.paper
 mybatis:
   type-aliases-package: com.gmail.mosoft521.paper.entity
   config-locations: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  mapper-locations: classpath:mybatis/dao/**/*.xml
 spring:
   application:
     name: springcloud-demo-provider-dict    # 对应config server所获取的配置文件的{application}
