@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-public class DictController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DictController.class);
+public class DictRestController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DictRestController.class);
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -39,6 +39,6 @@ public class DictController {
     public void logUserInstance() {
         ServiceInstance serviceInstance = this.loadBalancerClient.choose("springcloud-demo-provider-dict");
         // 打印当前选择的是哪个节点
-        DictController.LOGGER.info("{}:{}:{}", serviceInstance.getServiceId(), serviceInstance.getHost(), serviceInstance.getPort());
+        DictRestController.LOGGER.info("{}:{}:{}", serviceInstance.getServiceId(), serviceInstance.getHost(), serviceInstance.getPort());
     }
 }
