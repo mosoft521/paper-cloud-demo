@@ -1,6 +1,6 @@
 package com.gmail.mosoft521.paper.constants;
 
-public enum DisabledType {
+public enum DisabledEnum {
     //    //有效
     //    public static final int ENABLED = 0;
     //    //失效
@@ -27,13 +27,13 @@ public enum DisabledType {
         this.message = message;
     }
 
-    DisabledType(Integer code, String message) {
+    DisabledEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public static DisabledType DisabledType(int code) {
-        for (DisabledType disabledType : DisabledType.values()) {
+    public static DisabledEnum valueOf(int code) {
+        for (DisabledEnum disabledType : DisabledEnum.values()) {
             if (code == disabledType.getCode()) {
                 return disabledType;
             }

@@ -1,5 +1,6 @@
 package com.gmail.mosoft521.paper.service.impl;
 
+import com.gmail.mosoft521.paper.constants.DisabledEnum;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictMapperExt;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictTreePathMapperExt;
 import com.gmail.mosoft521.paper.entity.CommonDict;
@@ -88,7 +89,7 @@ public class DictServiceImpl implements DictService {
         CommonDict commonDict = new CommonDict();
         commonDict.setDictCode(code);
         commonDict.setDictCodeText(codeText);
-        commonDict.setDisabled(DisabledType.ENABLED.getCode());
+        commonDict.setDisabled(DisabledEnum.ENABLED.getCode());
         commonDict.setVersion(1L);
         commonDict.setCreater(null);
         commonDict.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -102,7 +103,7 @@ public class DictServiceImpl implements DictService {
             CommonDictTreePath commonDictTreePathNew = new CommonDictTreePath();
             commonDictTreePathNew.setAncDictId(commonDictTreePathOld.getAncDictId());
             commonDictTreePathNew.setDesDictId(selfId);
-            commonDictTreePathNew.setDisabled(DisabledType.ENABLED.getCode());
+            commonDictTreePathNew.setDisabled(DisabledEnum.ENABLED.getCode());
             commonDictTreePathNew.setVersion(1L);
             commonDictTreePathNew.setCreater(null);
             commonDictTreePathNew.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -114,7 +115,7 @@ public class DictServiceImpl implements DictService {
         commonDictTreePath.setAncDictId(selfId);
         commonDictTreePath.setDesDictId(selfId);
         commonDictTreePath.setVersion(1L);
-        commonDictTreePath.setDisabled(DisabledType.ENABLED.getCode());
+        commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
         commonDictTreePath.setPathLength(0);
         commonDictTreePathList.add(commonDictTreePath);
         for (CommonDictTreePath commonDictTreePath1 : commonDictTreePathList) {
