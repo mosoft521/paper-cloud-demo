@@ -81,11 +81,12 @@ public class DictRestController {
         return commonDictVOList;
     }
 
-    public CommonDict findSonsByParentDictIdIncludeSelfFallback(Long parentDictId) {
-        CommonDict commonDict = new CommonDict();
-        commonDict.setDictId(-1L);
-        commonDict.setDictCode("DEFAULT");
-        commonDict.setDictCodeText("默认文本");
-        return commonDict;
+    public List<TreeVO> findSonsByParentDictIdIncludeSelfFallback(Long parentDictId) {
+        List<TreeVO> treeVOList = new ArrayList<TreeVO>();
+        TreeVO treeVO = new TreeVO();
+        treeVO.setId(-1L);
+        treeVO.setText("DEFAULT");
+        treeVOList.add(treeVO);
+        return treeVOList;
     }
 }
