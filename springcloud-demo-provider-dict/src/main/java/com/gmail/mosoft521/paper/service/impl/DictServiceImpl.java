@@ -1,7 +1,5 @@
 package com.gmail.mosoft521.paper.service.impl;
 
-
-import com.gmail.mosoft521.paper.constants.DisabledType;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictMapperExt;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictTreePathMapperExt;
 import com.gmail.mosoft521.paper.entity.CommonDict;

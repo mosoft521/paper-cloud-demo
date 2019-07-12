@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="E:\java\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="d:\java\repository\mysql\mysql-connector-java\5.1.47\mysql-connector-java-5.1.47.jar"/>
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -23,17 +23,17 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.gmail.mosoft521.paper.entity" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
+        <javaModelGenerator targetPackage="com.gmail.mosoft521.paper.entity" targetProject="d:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
             <property name="" value=""/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mybatis.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\resources">
+        <sqlMapGenerator targetPackage="mybatis.dao" targetProject="d:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gmail.mosoft521.paper.dao" targetProject="E:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.gmail.mosoft521.paper.dao" targetProject="d:\ws_ij_cloud\spring-cloud-demo\springcloud-demo-provider-dict\src\main\java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
@@ -59,10 +59,16 @@
 
         <!--<table schema="" tableName="common_dict" domainObjectName="CommonDict" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
         <table schema="" tableName="common_dict" domainObjectName="CommonDict">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <generatedKey column="DICT_ID" sqlStatement="MySql" identity="true"/>
         </table>
         <!--<table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
         <table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath">
+        </table>
+
+        <table schema="" tableName="common_xzqh" domainObjectName="CommonXzqh">
+            <generatedKey column="DICT_ID" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="" tableName="common_xzqh_tree_path" domainObjectName="CommonXzqhTreePath">
         </table>
 
     </context>

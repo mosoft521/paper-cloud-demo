@@ -1,7 +1,6 @@
 package com.gmail.mosoft521.paper.service;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
-import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 
 import java.util.List;
 import java.util.Map;

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gmail.mosoft521.paper.dao.CommonDictMapper">
-  <resultMap id="BaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonDict">
-    <id column="DICT_ID" jdbcType="BIGINT" property="dictId" />
-    <result column="DICT_CODE" jdbcType="VARCHAR" property="dictCode" />
-    <result column="DICT_CODE_TEXT" jdbcType="VARCHAR" property="dictCodeText" />
+<mapper namespace="com.gmail.mosoft521.paper.dao.CommonXzqhMapper">
+  <resultMap id="BaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonXzqh">
+    <id column="dict_id" jdbcType="BIGINT" property="dictId" />
+    <result column="dict_code" jdbcType="VARCHAR" property="dictCode" />
+    <result column="dict_code_text" jdbcType="VARCHAR" property="dictCodeText" />
+    <result column="icon_mongodb_key" jdbcType="VARCHAR" property="iconMongodbKey" />
     <result column="creater" jdbcType="BIGINT" property="creater" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modifier" jdbcType="BIGINT" property="modifier" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="version" jdbcType="BIGINT" property="version" />
     <result column="disabled" jdbcType="INTEGER" property="disabled" />
+    <result column="admin_rank" jdbcType="INTEGER" property="adminRank" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,16 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    DICT_ID, DICT_CODE, DICT_CODE_TEXT, creater, create_time, modifier, modify_time, 
-    version, disabled
+    dict_id, dict_code, dict_code_text, icon_mongodb_key, creater, create_time, modifier, 
+    modify_time, version, disabled, admin_rank
   </sql>
-  <select id="selectByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from common_dict
+    from common_xzqh
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,41 +93,46 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from common_dict
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    from common_xzqh
+    where dict_id = #{dictId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from common_dict
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    delete from common_xzqh
+    where dict_id = #{dictId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample">
-    delete from common_dict
+  <delete id="deleteByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhExample">
+    delete from common_xzqh
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
+  <insert id="insert" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqh">
     <selectKey keyProperty="dictId" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into common_dict (DICT_CODE, DICT_CODE_TEXT, creater, 
-      create_time, modifier, modify_time, 
-      version, disabled)
-    values (#{dictCode,jdbcType=VARCHAR}, #{dictCodeText,jdbcType=VARCHAR}, #{creater,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=BIGINT}, #{disabled,jdbcType=INTEGER})
+    insert into common_xzqh (dict_code, dict_code_text, icon_mongodb_key, 
+      creater, create_time, modifier, 
+      modify_time, version, disabled, 
+      admin_rank)
+    values (#{dictCode,jdbcType=VARCHAR}, #{dictCodeText,jdbcType=VARCHAR}, #{iconMongodbKey,jdbcType=VARCHAR}, 
+      #{creater,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, #{disabled,jdbcType=INTEGER}, 
+      #{adminRank,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
+  <insert id="insertSelective" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqh">
     <selectKey keyProperty="dictId" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into common_dict
+    insert into common_xzqh
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dictCode != null">
-        DICT_CODE,
+        dict_code,
       </if>
       <if test="dictCodeText != null">
-        DICT_CODE_TEXT,
+        dict_code_text,
+      </if>
+      <if test="iconMongodbKey != null">
+        icon_mongodb_key,
       </if>
       <if test="creater != null">
         creater,
@@ -145,6 +152,9 @@
       <if test="disabled != null">
         disabled,
       </if>
+      <if test="adminRank != null">
+        admin_rank,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dictCode != null">
@@ -152,6 +162,9 @@
       </if>
       <if test="dictCodeText != null">
         #{dictCodeText,jdbcType=VARCHAR},
+      </if>
+      <if test="iconMongodbKey != null">
+        #{iconMongodbKey,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=BIGINT},
@@ -171,25 +184,31 @@
       <if test="disabled != null">
         #{disabled,jdbcType=INTEGER},
       </if>
+      <if test="adminRank != null">
+        #{adminRank,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample" resultType="java.lang.Long">
-    select count(*) from common_dict
+  <select id="countByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhExample" resultType="java.lang.Long">
+    select count(*) from common_xzqh
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update common_dict
+    update common_xzqh
     <set>
       <if test="record.dictId != null">
-        DICT_ID = #{record.dictId,jdbcType=BIGINT},
+        dict_id = #{record.dictId,jdbcType=BIGINT},
       </if>
       <if test="record.dictCode != null">
-        DICT_CODE = #{record.dictCode,jdbcType=VARCHAR},
+        dict_code = #{record.dictCode,jdbcType=VARCHAR},
       </if>
       <if test="record.dictCodeText != null">
-        DICT_CODE_TEXT = #{record.dictCodeText,jdbcType=VARCHAR},
+        dict_code_text = #{record.dictCodeText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconMongodbKey != null">
+        icon_mongodb_key = #{record.iconMongodbKey,jdbcType=VARCHAR},
       </if>
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=BIGINT},
@@ -209,34 +228,42 @@
       <if test="record.disabled != null">
         disabled = #{record.disabled,jdbcType=INTEGER},
       </if>
+      <if test="record.adminRank != null">
+        admin_rank = #{record.adminRank,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update common_dict
-    set DICT_ID = #{record.dictId,jdbcType=BIGINT},
-      DICT_CODE = #{record.dictCode,jdbcType=VARCHAR},
-      DICT_CODE_TEXT = #{record.dictCodeText,jdbcType=VARCHAR},
+    update common_xzqh
+    set dict_id = #{record.dictId,jdbcType=BIGINT},
+      dict_code = #{record.dictCode,jdbcType=VARCHAR},
+      dict_code_text = #{record.dictCodeText,jdbcType=VARCHAR},
+      icon_mongodb_key = #{record.iconMongodbKey,jdbcType=VARCHAR},
       creater = #{record.creater,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modifier = #{record.modifier,jdbcType=BIGINT},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
       version = #{record.version,jdbcType=BIGINT},
-      disabled = #{record.disabled,jdbcType=INTEGER}
+      disabled = #{record.disabled,jdbcType=INTEGER},
+      admin_rank = #{record.adminRank,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    update common_dict
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqh">
+    update common_xzqh
     <set>
       <if test="dictCode != null">
-        DICT_CODE = #{dictCode,jdbcType=VARCHAR},
+        dict_code = #{dictCode,jdbcType=VARCHAR},
       </if>
       <if test="dictCodeText != null">
-        DICT_CODE_TEXT = #{dictCodeText,jdbcType=VARCHAR},
+        dict_code_text = #{dictCodeText,jdbcType=VARCHAR},
+      </if>
+      <if test="iconMongodbKey != null">
+        icon_mongodb_key = #{iconMongodbKey,jdbcType=VARCHAR},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=BIGINT},
@@ -256,19 +283,24 @@
       <if test="disabled != null">
         disabled = #{disabled,jdbcType=INTEGER},
       </if>
+      <if test="adminRank != null">
+        admin_rank = #{adminRank,jdbcType=INTEGER},
+      </if>
     </set>
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    where dict_id = #{dictId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    update common_dict
-    set DICT_CODE = #{dictCode,jdbcType=VARCHAR},
-      DICT_CODE_TEXT = #{dictCodeText,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqh">
+    update common_xzqh
+    set dict_code = #{dictCode,jdbcType=VARCHAR},
+      dict_code_text = #{dictCodeText,jdbcType=VARCHAR},
+      icon_mongodb_key = #{iconMongodbKey,jdbcType=VARCHAR},
       creater = #{creater,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=BIGINT},
-      disabled = #{disabled,jdbcType=INTEGER}
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+      disabled = #{disabled,jdbcType=INTEGER},
+      admin_rank = #{adminRank,jdbcType=INTEGER}
+    where dict_id = #{dictId,jdbcType=BIGINT}
   </update>
 </mapper>

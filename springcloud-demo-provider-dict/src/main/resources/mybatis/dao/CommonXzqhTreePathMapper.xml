@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gmail.mosoft521.paper.dao.CommonDictMapper">
-  <resultMap id="BaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonDict">
-    <id column="DICT_ID" jdbcType="BIGINT" property="dictId" />
-    <result column="DICT_CODE" jdbcType="VARCHAR" property="dictCode" />
-    <result column="DICT_CODE_TEXT" jdbcType="VARCHAR" property="dictCodeText" />
+<mapper namespace="com.gmail.mosoft521.paper.dao.CommonXzqhTreePathMapper">
+  <resultMap id="BaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonXzqhTreePath">
+    <id column="anc_dict_id" jdbcType="BIGINT" property="ancDictId" />
+    <id column="des_dict_id" jdbcType="BIGINT" property="desDictId" />
+    <result column="path_length" jdbcType="INTEGER" property="pathLength" />
     <result column="creater" jdbcType="BIGINT" property="creater" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modifier" jdbcType="BIGINT" property="modifier" />
@@ -71,16 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    DICT_ID, DICT_CODE, DICT_CODE_TEXT, creater, create_time, modifier, modify_time, 
+    anc_dict_id, des_dict_id, path_length, creater, create_time, modifier, modify_time, 
     version, disabled
   </sql>
-  <select id="selectByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePathExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from common_dict
+    from common_xzqh_tree_path
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,44 +88,45 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePathKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from common_dict
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    from common_xzqh_tree_path
+    where anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+      and des_dict_id = #{desDictId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from common_dict
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePathKey">
+    delete from common_xzqh_tree_path
+    where anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+      and des_dict_id = #{desDictId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample">
-    delete from common_dict
+  <delete id="deleteByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePathExample">
+    delete from common_xzqh_tree_path
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    <selectKey keyProperty="dictId" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into common_dict (DICT_CODE, DICT_CODE_TEXT, creater, 
-      create_time, modifier, modify_time, 
-      version, disabled)
-    values (#{dictCode,jdbcType=VARCHAR}, #{dictCodeText,jdbcType=VARCHAR}, #{creater,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=BIGINT}, #{disabled,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePath">
+    insert into common_xzqh_tree_path (anc_dict_id, des_dict_id, path_length, 
+      creater, create_time, modifier, 
+      modify_time, version, disabled
+      )
+    values (#{ancDictId,jdbcType=BIGINT}, #{desDictId,jdbcType=BIGINT}, #{pathLength,jdbcType=INTEGER}, 
+      #{creater,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, #{disabled,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    <selectKey keyProperty="dictId" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into common_dict
+  <insert id="insertSelective" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePath">
+    insert into common_xzqh_tree_path
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="dictCode != null">
-        DICT_CODE,
+      <if test="ancDictId != null">
+        anc_dict_id,
       </if>
-      <if test="dictCodeText != null">
-        DICT_CODE_TEXT,
+      <if test="desDictId != null">
+        des_dict_id,
+      </if>
+      <if test="pathLength != null">
+        path_length,
       </if>
       <if test="creater != null">
         creater,
@@ -147,11 +148,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="dictCode != null">
-        #{dictCode,jdbcType=VARCHAR},
+      <if test="ancDictId != null">
+        #{ancDictId,jdbcType=BIGINT},
       </if>
-      <if test="dictCodeText != null">
-        #{dictCodeText,jdbcType=VARCHAR},
+      <if test="desDictId != null">
+        #{desDictId,jdbcType=BIGINT},
+      </if>
+      <if test="pathLength != null">
+        #{pathLength,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=BIGINT},
@@ -173,23 +177,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictExample" resultType="java.lang.Long">
-    select count(*) from common_dict
+  <select id="countByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePathExample" resultType="java.lang.Long">
+    select count(*) from common_xzqh_tree_path
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update common_dict
+    update common_xzqh_tree_path
     <set>
-      <if test="record.dictId != null">
-        DICT_ID = #{record.dictId,jdbcType=BIGINT},
+      <if test="record.ancDictId != null">
+        anc_dict_id = #{record.ancDictId,jdbcType=BIGINT},
       </if>
-      <if test="record.dictCode != null">
-        DICT_CODE = #{record.dictCode,jdbcType=VARCHAR},
+      <if test="record.desDictId != null">
+        des_dict_id = #{record.desDictId,jdbcType=BIGINT},
       </if>
-      <if test="record.dictCodeText != null">
-        DICT_CODE_TEXT = #{record.dictCodeText,jdbcType=VARCHAR},
+      <if test="record.pathLength != null">
+        path_length = #{record.pathLength,jdbcType=INTEGER},
       </if>
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=BIGINT},
@@ -215,10 +219,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update common_dict
-    set DICT_ID = #{record.dictId,jdbcType=BIGINT},
-      DICT_CODE = #{record.dictCode,jdbcType=VARCHAR},
-      DICT_CODE_TEXT = #{record.dictCodeText,jdbcType=VARCHAR},
+    update common_xzqh_tree_path
+    set anc_dict_id = #{record.ancDictId,jdbcType=BIGINT},
+      des_dict_id = #{record.desDictId,jdbcType=BIGINT},
+      path_length = #{record.pathLength,jdbcType=INTEGER},
       creater = #{record.creater,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modifier = #{record.modifier,jdbcType=BIGINT},
@@ -229,14 +233,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    update common_dict
+  <update id="updateByPrimaryKeySelective" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePath">
+    update common_xzqh_tree_path
     <set>
-      <if test="dictCode != null">
-        DICT_CODE = #{dictCode,jdbcType=VARCHAR},
-      </if>
-      <if test="dictCodeText != null">
-        DICT_CODE_TEXT = #{dictCodeText,jdbcType=VARCHAR},
+      <if test="pathLength != null">
+        path_length = #{pathLength,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=BIGINT},
@@ -257,18 +258,19 @@
         disabled = #{disabled,jdbcType=INTEGER},
       </if>
     </set>
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    where anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+      and des_dict_id = #{desDictId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonDict">
-    update common_dict
-    set DICT_CODE = #{dictCode,jdbcType=VARCHAR},
-      DICT_CODE_TEXT = #{dictCodeText,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonXzqhTreePath">
+    update common_xzqh_tree_path
+    set path_length = #{pathLength,jdbcType=INTEGER},
       creater = #{creater,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=BIGINT},
       disabled = #{disabled,jdbcType=INTEGER}
-    where DICT_ID = #{dictId,jdbcType=BIGINT}
+    where anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+      and des_dict_id = #{desDictId,jdbcType=BIGINT}
   </update>
 </mapper>
