@@ -1,7 +1,7 @@
 package com.gmail.mosoft521.paper.controller;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
-import com.gmail.mosoft521.paper.vo.TreeVO;
+import com.gmail.mosoft521.paper.vo.TreeVo;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,44 +49,53 @@ public class DictRestController {
 
     @HystrixCommand(fallbackMethod = "findSonsByParentDictIdIncludeSelfFallback")
     @GetMapping("/findSonsByParentDictIdIncludeSelf/{parentDictId}")
-    public List<TreeVO> findTreeByAncDictIdIncludeSelf(@PathVariable Long parentDictId) {
-        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictIdIncludeSelf/" + parentDictId, CommonDict[].class);
+    public List<TreeVo> findSonsByParentDictIdIncludeSelf(@PathVariable Long parentDictId) {
+        List<TreeVo> commonDictVO2List = new ArrayList<TreeVo>();
+        CommonDict commonDictSelf = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findCommonDictByDictId/" + parentDictId, CommonDict.class);
+        TreeVo treeVo = new TreeVo();
+        treeVo.setId(commonDictSelf.getDictId().toString());
+        treeVo.setParent("#");
+        treeVo.setText(commonDictSelf.getDictCodeText());
+        commonDictVO2List.add(treeVo);
+
+        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
         List<CommonDict> commonDictList = Arrays.asList(commonDicts);
-        List<TreeVO> commonDictVOList = new ArrayList<TreeVO>(commonDictList.size());
+
         for (CommonDict commonDict : commonDictList) {
-            System.out.println(commonDict.getDictId());
-            TreeVO treeVO = new TreeVO();
-            treeVO.setId(commonDict.getDictId());
-            treeVO.setText(commonDict.getDictCodeText());
+            treeVo = new TreeVo();
+            treeVo.setId(commonDict.getDictId().toString());
+            treeVo.setParent(commonDictSelf.getDictId().toString());
+            treeVo.setText(commonDict.getDictCodeText());
             //TODO:展开子
 //            treeVO.setChildren(expand(commonDict.getDictId()));
-            commonDictVOList.add(treeVO);
+            commonDictVO2List.add(treeVo);
         }
-        return commonDictVOList;
+        return commonDictVO2List;
     }
 
-    private List<TreeVO> expand(Long parentDictId) {
-        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictIdIncludeSelf/" + parentDictId, CommonDict[].class);
+    private List<TreeVo> expand(Long parentDictId) {
+        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
         List<CommonDict> commonDictList = Arrays.asList(commonDicts);
-        List<TreeVO> commonDictVOList = new ArrayList<TreeVO>(commonDictList.size());
+        List<TreeVo> commonDictVO2List = new ArrayList<TreeVo>(commonDictList.size());
         for (CommonDict commonDict : commonDictList) {
-            System.out.println(commonDict.getDictId());
-            TreeVO treeVO = new TreeVO();
-            treeVO.setId(commonDict.getDictId());
-            treeVO.setText(commonDict.getDictCodeText());
+            TreeVo treeVo = new TreeVo();
+            treeVo.setId(commonDict.getDictId().toString());
+            treeVo.setParent(parentDictId.toString());
+            treeVo.setText(commonDict.getDictCodeText());
 
-            treeVO.setChildren(expand(commonDict.getDictId()));
-            commonDictVOList.add(treeVO);
+            commonDictVO2List.add(treeVo);
+            commonDictVO2List.addAll(expand(commonDict.getDictId()));
         }
-        return commonDictVOList;
+        return commonDictVO2List;
     }
 
-    public List<TreeVO> findSonsByParentDictIdIncludeSelfFallback(Long parentDictId) {
-        List<TreeVO> treeVOList = new ArrayList<TreeVO>();
-        TreeVO treeVO = new TreeVO();
-        treeVO.setId(-1L);
-        treeVO.setText("DEFAULT");
-        treeVOList.add(treeVO);
-        return treeVOList;
+    public List<TreeVo> findSonsByParentDictIdIncludeSelfFallback(Long parentDictId) {
+        List<TreeVo> treeVoList = new ArrayList<TreeVo>();
+        TreeVo treeVo = new TreeVo();
+        treeVo.setId("1");
+        treeVo.setParent("#");
+        treeVo.setText("DEFAULT");
+        treeVoList.add(treeVo);
+        return treeVoList;
     }
 }

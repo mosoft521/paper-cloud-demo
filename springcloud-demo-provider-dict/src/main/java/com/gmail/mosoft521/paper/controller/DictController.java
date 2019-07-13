@@ -20,9 +20,21 @@ public class DictController {
         return commonDict;
     }
 
+    @GetMapping("/findSonsByParentDictId/{parentDictId}")
+    public List<CommonDict> findSonsByParentDictId(@PathVariable Long parentDictId) {
+        List<CommonDict> commonDictList = this.dictService.findSonsByParentDictId(parentDictId);
+        return commonDictList;
+    }
+
     @GetMapping("/findSonsByParentDictIdIncludeSelf/{parentDictId}")
     public List<CommonDict> findSonsByParentDictIdIncludeSelf(@PathVariable Long parentDictId) {
         List<CommonDict> commonDictList = this.dictService.findSonsByParentDictIdIncludeSelf(parentDictId);
+        return commonDictList;
+    }
+
+    @GetMapping("/findTreeByAncDictIdIncludeSelf/{parentDictId}")
+    public List<CommonDict> findTreeByAncDictIdIncludeSelf(@PathVariable Long parentDictId) {
+        List<CommonDict> commonDictList = this.dictService.findTreeByAncDictIdIncludeSelf(parentDictId);
         return commonDictList;
     }
 }
