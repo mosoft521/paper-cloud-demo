@@ -5,6 +5,7 @@ import com.gmail.mosoft521.paper.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,5 +37,11 @@ public class DictController {
     public List<CommonDict> findTreeByAncDictIdIncludeSelf(@PathVariable Long parentDictId) {
         List<CommonDict> commonDictList = this.dictService.findTreeByAncDictIdIncludeSelf(parentDictId);
         return commonDictList;
+    }
+
+    @PostMapping("/insertDict/{parentId}/{code}/{codeText}")
+    public CommonDict insertDict(@PathVariable Long parentId, @PathVariable String code, @PathVariable String codeText) {
+        CommonDict commonDict = this.dictService.insertDict(parentId, code, codeText);
+        return commonDict;
     }
 }

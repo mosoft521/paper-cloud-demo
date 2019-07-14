@@ -10,6 +10,9 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class DictRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DictRestController.class);
     @Autowired
@@ -48,15 +52,15 @@ public class DictRestController {
     }
 
     @HystrixCommand(fallbackMethod = "findSonsByParentDictIdIncludeSelfFallback")
-    @GetMapping("/findSonsByParentDictIdIncludeSelf/{parentDictId}")
+    @GetMapping("/dict/findSonsByParentDictIdIncludeSelf/{parentDictId}")
     public List<TreeVo> findSonsByParentDictIdIncludeSelf(@PathVariable Long parentDictId) {
-        List<TreeVo> commonDictVO2List = new ArrayList<TreeVo>();
+        List<TreeVo> treeVoList = new ArrayList<TreeVo>();
         CommonDict commonDictSelf = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findCommonDictByDictId/" + parentDictId, CommonDict.class);
         TreeVo treeVo = new TreeVo();
         treeVo.setId(commonDictSelf.getDictId().toString());
         treeVo.setParent("#");
         treeVo.setText(commonDictSelf.getDictCodeText());
-        commonDictVO2List.add(treeVo);
+        treeVoList.add(treeVo);
 
         CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
         List<CommonDict> commonDictList = Arrays.asList(commonDicts);
@@ -68,25 +72,25 @@ public class DictRestController {
             treeVo.setText(commonDict.getDictCodeText());
             //TODO:展开子
 //            treeVO.setChildren(expand(commonDict.getDictId()));
-            commonDictVO2List.add(treeVo);
+            treeVoList.add(treeVo);
         }
-        return commonDictVO2List;
+        return treeVoList;
     }
 
     private List<TreeVo> expand(Long parentDictId) {
         CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
         List<CommonDict> commonDictList = Arrays.asList(commonDicts);
-        List<TreeVo> commonDictVO2List = new ArrayList<TreeVo>(commonDictList.size());
+        List<TreeVo> treeVoList = new ArrayList<TreeVo>(commonDictList.size());
         for (CommonDict commonDict : commonDictList) {
             TreeVo treeVo = new TreeVo();
             treeVo.setId(commonDict.getDictId().toString());
             treeVo.setParent(parentDictId.toString());
             treeVo.setText(commonDict.getDictCodeText());
 
-            commonDictVO2List.add(treeVo);
-            commonDictVO2List.addAll(expand(commonDict.getDictId()));
+            treeVoList.add(treeVo);
+            treeVoList.addAll(expand(commonDict.getDictId()));
         }
-        return commonDictVO2List;
+        return treeVoList;
     }
 
     public List<TreeVo> findSonsByParentDictIdIncludeSelfFallback(Long parentDictId) {
@@ -97,5 +101,20 @@ public class DictRestController {
         treeVo.setText("DEFAULT");
         treeVoList.add(treeVo);
         return treeVoList;
+    }
+
+    @HystrixCommand(fallbackMethod = "insertDictFallback")
+    @PostMapping("/dict")
+    public TreeVo insertDict(@RequestBody TreeVo treeVo) {
+        CommonDict commonDict = new CommonDict();
+        commonDict.setDictCodeText(treeVo.getText());
+        CommonDict commonDictResult = this.restTemplate.postForObject("http://springcloud-demo-provider-dict/insertDict/" + treeVo.getParent() + "/" + treeVo.getText() + "/" + treeVo.getText(), commonDict, CommonDict.class);
+        treeVo.setId(commonDictResult.getDictId().toString());
+        return treeVo;
+    }
+
+    public TreeVo insertDictFallback(@RequestBody TreeVo treeVo) {
+        treeVo.setId("-1L");
+        return treeVo;
     }
 }
