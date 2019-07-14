@@ -11,6 +11,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -116,5 +117,19 @@ public class DictRestController {
     public TreeVo insertDictFallback(@RequestBody TreeVo treeVo) {
         treeVo.setId("-1L");
         return treeVo;
+    }
+
+    @HystrixCommand(fallbackMethod = "modifyDictFallback")
+    @PutMapping("/dict")
+    public String modifyDict(@RequestBody TreeVo treeVo) {
+        CommonDict commonDict = new CommonDict();
+        commonDict.setDictId(Long.parseLong(treeVo.getId()));
+        commonDict.setDictCodeText(treeVo.getText());
+        this.restTemplate.put("http://springcloud-demo-provider-dict/modifyCommonDict", commonDict);
+        return "success";
+    }
+
+    public String modifyDictFallback(@RequestBody TreeVo treeVo) {
+        return "fail";
     }
 }

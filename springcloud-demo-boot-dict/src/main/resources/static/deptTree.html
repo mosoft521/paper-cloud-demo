@@ -184,6 +184,22 @@
                     console.log("新建结点错误提示： " + xhr.status + " " + xhr.statusText);
                 }
             });
+        }).on("rename_node.jstree", function (e, data) {
+            //ajax保存到后台
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:8081/api/v1/dict",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({"id": data.node.id, "text": data.node.text}),
+                async: false,
+                success: function (result) {
+                    console.log("修改结点" + result.id);
+                },
+                error: function (xhr) {
+                    console.log("修改结点错误提示： " + xhr.status + " " + xhr.statusText);
+                }
+            });
         });
     });
 </script>
