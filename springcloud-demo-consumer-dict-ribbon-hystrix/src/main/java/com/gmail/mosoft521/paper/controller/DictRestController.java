@@ -129,7 +129,7 @@ public class DictRestController {
     }
 
     @HystrixCommand(fallbackMethod = "insertDictFallback")
-    @PostMapping("/dict")
+    @PostMapping("/insertDict")
     public TreeVo insertDict(@RequestBody TreeVo treeVo) {
         CommonDict commonDict = new CommonDict();
         commonDict.setDictCode(treeVo.getText());
@@ -145,7 +145,7 @@ public class DictRestController {
     }
 
     @HystrixCommand(fallbackMethod = "modifyDictFallback")
-    @PutMapping("/dict")
+    @PutMapping("/modifyDict")
     public String modifyDict(@RequestBody TreeVo treeVo) {
         CommonDict commonDict = new CommonDict();
         commonDict.setDictId(Long.parseLong(treeVo.getId()));

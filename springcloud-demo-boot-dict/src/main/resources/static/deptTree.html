@@ -41,8 +41,8 @@
 
 <script>
     $(function () {
-        // //这个是关键，如果不清空实例，jstree不会重新生成
-        // $('#deptTree').data('jstree', false).empty();
+        //这个是关键，如果不清空实例，jstree不会重新生成
+        $('#deptTree').data('jstree', false).empty();
 
         $('#deptTree').jstree({
             'core': {
@@ -170,7 +170,7 @@
             //ajax保存到后台
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8081/api/v1/dict",
+                url: "http://localhost:8081/api/v1/insertDict",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify({"text": data.node.text, "parent": data.parent}),
@@ -186,13 +186,13 @@
             //ajax保存到后台
             $.ajax({
                 type: "PUT",
-                url: "http://localhost:8081/api/v1/dict",
+                url: "http://localhost:8081/api/v1/modifyDict",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify({"id": data.node.id, "text": data.node.text}),
                 async: false,
                 success: function (result) {
-                    console.log("修改结点" + result.id);
+                    console.log("修改结点" + result);
                 },
                 error: function (xhr) {
                     console.log("修改结点错误提示： " + xhr.status + " " + xhr.statusText);
@@ -207,7 +207,7 @@
                 dataType: "json",
                 async: false,
                 success: function (result) {
-                    console.log("删除结点" + result.id);
+                    console.log("删除结点" + result);
                 },
                 error: function (xhr) {
                     console.log("删除结点错误提示： " + xhr.status + " " + xhr.statusText);
