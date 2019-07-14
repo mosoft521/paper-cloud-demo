@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<h1>AJAX demo</h1>
+<h1>龙生九子</h1>
 <div id="deptTree" class="demo"></div>
 
 <script src="jquery-3.3.1.js"></script>
@@ -68,7 +68,7 @@
                             for (var i = 0; i < arrays.length; i++) {
                                 var arr = {
                                     "id": arrays[i].id,
-                                    "parent": arrays[i].parent == "#" ? "#" : arrays[i].parent,
+                                    "parent": arrays[i].parent === "#" ? "#" : arrays[i].parent,
                                     "text": arrays[i].text
                                 }
                                 jsonarray.push(arr);
@@ -77,11 +77,36 @@
                     });
                     callback.call(this, jsonarray);
                 }
+            },
+
+            "plugins": [
+                "checkbox",
+                "contextmenu",
+                "dnd",
+                "massload",
+                "search",
+                "sort",
+                "state",
+                "types",
+                "unique",
+                // "wholerow",
+                "changed",
+                "conditionalselect"
+            ],
+            'sort': function (a, b) {
+                // return this.get_type(a) === this.get_type(b) ? (this.get_text(a) > this.get_text(b) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+                return this.get_type(a) === this.get_type(b) ? (parseInt(this.get_json(a).id) > parseInt(this.get_json(b).id) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+            },
+        }).on('changed.jstree', function (e, data) {
+            var i, j, r = [];
+            for (i = 0, j = data.selected.length; i < j; i++) {
+                r.push(data.instance.get_node(data.selected[i]).text);
             }
+            console.log('Selected: ' + r.join(', '));
+            console.log(data.changed.selected); // newly selected
+            console.log(data.changed.deselected); // newly deselected
         });
-
     });
-
 </script>
 </body>
 </html>
