@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gmail.mosoft521.paper.dao.ext.CommonDictTreePathMapperExt">
+    <resultMap id="ExtBaseResultMap" type="com.gmail.mosoft521.paper.entity.CommonDictTreePathExt" extends="com.gmail.mosoft521.paper.dao.CommonDictTreePathMapper.BaseResultMap">
+        <id column="ANC_DICT_CODE" jdbcType="VARCHAR" property="ancDictCode" />
+        <id column="ANC_DICT_CODE_TEXT" jdbcType="VARCHAR" property="ancDictCodeText" />
+        <id column="DES_DICT_CODE" jdbcType="VARCHAR" property="desDictCode" />
+        <id column="DES_DICT_CODE_TEXT" jdbcType="VARCHAR" property="desDictCodeText" />
+    </resultMap>
+
     <select id="findTreeByDesDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictTreePathMapper.BaseResultMap">
         SELECT
             dtp.anc_dict_id,
@@ -17,6 +24,29 @@
             inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
             WHERE
             dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
+    </select>
+
+    <select id="findAllByPathLenth" parameterType="java.lang.Integer" resultMap="ExtBaseResultMap">
+        SELECT
+            dtp.anc_dict_id,
+            d1.DICT_CODE as ANC_DICT_CODE,
+            d1.DICT_CODE_TEXT as ANC_DICT_CODE_TEXT,
+            dtp.des_dict_id,
+            d2.DICT_CODE as DES_DICT_CODE,
+            d2.DICT_CODE_TEXT as DES_DICT_CODE_TEXT,
+            dtp.path_length,
+            dtp.creater,
+            dtp.create_time,
+            dtp.modifier,
+            dtp.modify_time,
+            dtp.version,
+            dtp.disabled
+            FROM
+            common_dict_tree_path dtp
+            inner JOIN common_dict d1 ON dtp.anc_dict_id = d1.dict_id
+            inner join common_dict d2 ON dtp.des_dict_id = d2.dict_id
+            WHERE
+            dtp.path_length = #{pathLength,jdbcType=INTEGER}
     </select>
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.gmail.mosoft521.paper.service;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
+import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,13 @@ public interface DictService {
      */
     CommonDict findCommonDictByDictId(Long dictId);
 
+    /**
+     * 根据字典路径长度查询字典
+     *
+     * @param pathLength 路径长度
+     * @return 字典详情
+     */
+    List<CommonDictTreePathExt> findAllByPathLenth(Integer pathLength);
 
     //查询子：
 

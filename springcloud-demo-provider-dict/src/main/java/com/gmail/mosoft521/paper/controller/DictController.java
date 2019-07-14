@@ -1,6 +1,7 @@
 package com.gmail.mosoft521.paper.controller;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
+import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,12 @@ public class DictController {
     public CommonDict findCommonDictByDictId(@PathVariable Long id) {
         CommonDict commonDict = this.dictService.findCommonDictByDictId(id);
         return commonDict;
+    }
+
+    @GetMapping("/findAllByPathLenth/{pathLength}")
+    public List<CommonDictTreePathExt> findAllByPathLenth(@PathVariable Integer pathLength) {
+        List<CommonDictTreePathExt> commonDictTreePathExtList = this.dictService.findAllByPathLenth(pathLength);
+        return commonDictTreePathExtList;
     }
 
     @GetMapping("/findSonsByParentDictId/{parentDictId}")

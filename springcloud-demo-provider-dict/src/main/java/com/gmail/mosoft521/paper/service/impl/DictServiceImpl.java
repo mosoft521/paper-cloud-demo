@@ -7,6 +7,7 @@ import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictExample;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExample;
+import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,11 @@ public class DictServiceImpl implements DictService {
     public CommonDict findCommonDictByDictId(Long dictId) {
         CommonDict commonDict = commonDictMapperExt.selectByPrimaryKey(dictId);
         return commonDict;
+    }
+
+    @Override
+    public List<CommonDictTreePathExt> findAllByPathLenth(Integer pathLength) {
+        return commonDictTreePathMapperExt.findAllByPathLenth(pathLength);
     }
 
     @Override

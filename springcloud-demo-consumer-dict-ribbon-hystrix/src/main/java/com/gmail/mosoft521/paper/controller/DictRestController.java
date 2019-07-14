@@ -1,6 +1,7 @@
 package com.gmail.mosoft521.paper.controller;
 
 import com.gmail.mosoft521.paper.entity.CommonDict;
+import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.vo.TreeVo;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
@@ -56,6 +57,29 @@ public class DictRestController {
     @HystrixCommand(fallbackMethod = "findSonsByParentDictIdIncludeSelfFallback")
     @GetMapping("/dict/findSonsByParentDictIdIncludeSelf/{parentDictId}")
     public List<TreeVo> findSonsByParentDictIdIncludeSelf(@PathVariable Long parentDictId) {
+//        List<TreeVo> treeVoList = new ArrayList<TreeVo>();
+//        CommonDict commonDictSelf = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findCommonDictByDictId/" + parentDictId, CommonDict.class);
+//        TreeVo treeVo = new TreeVo();
+//        treeVo.setId(commonDictSelf.getDictId().toString());
+//        treeVo.setParent("#");
+//        treeVo.setText(commonDictSelf.getDictCodeText());
+//        treeVoList.add(treeVo);
+//
+//        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
+//        List<CommonDict> commonDictList = Arrays.asList(commonDicts);
+//
+//        for (CommonDict commonDict : commonDictList) {
+//            treeVo = new TreeVo();
+//            treeVo.setId(commonDict.getDictId().toString());
+//            treeVo.setParent(commonDictSelf.getDictId().toString());
+//            treeVo.setText(commonDict.getDictCodeText());
+//            //展开子
+////            treeVO.setChildren(expand(commonDict.getDictId()));
+//            treeVoList.add(treeVo);
+//        }
+//        return treeVoList;
+
+        //满足jsTree第二种格式的树：一下子全部加载treePath length为1的
         List<TreeVo> treeVoList = new ArrayList<TreeVo>();
         CommonDict commonDictSelf = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findCommonDictByDictId/" + parentDictId, CommonDict.class);
         TreeVo treeVo = new TreeVo();
@@ -64,19 +88,18 @@ public class DictRestController {
         treeVo.setText(commonDictSelf.getDictCodeText());
         treeVoList.add(treeVo);
 
-        CommonDict[] commonDicts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findSonsByParentDictId/" + parentDictId, CommonDict[].class);
-        List<CommonDict> commonDictList = Arrays.asList(commonDicts);
+        CommonDictTreePathExt[] commonDictTreePathExts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findAllByPathLenth/1", CommonDictTreePathExt[].class);
+        List<CommonDictTreePathExt> commonDictTreePathExtList = Arrays.asList(commonDictTreePathExts);
 
-        for (CommonDict commonDict : commonDictList) {
+        for (CommonDictTreePathExt commonDictTreePathExt : commonDictTreePathExtList) {
             treeVo = new TreeVo();
-            treeVo.setId(commonDict.getDictId().toString());
-            treeVo.setParent(commonDictSelf.getDictId().toString());
-            treeVo.setText(commonDict.getDictCodeText());
-            //TODO:展开子
-//            treeVO.setChildren(expand(commonDict.getDictId()));
+            treeVo.setId(commonDictTreePathExt.getDesDictId().toString());
+            treeVo.setParent(commonDictTreePathExt.getAncDictId().toString());
+            treeVo.setText(commonDictTreePathExt.getDesDictCodeText());
             treeVoList.add(treeVo);
         }
         return treeVoList;
+
     }
 
     private List<TreeVo> expand(Long parentDictId) {
