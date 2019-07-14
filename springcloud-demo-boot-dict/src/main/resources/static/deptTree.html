@@ -101,7 +101,7 @@
                             inst.create_node(obj, {}, "last", function (new_node) {
                                 try {
                                     new_node.text = "新建结点";
-                                    inst.edit(new_node);
+                                    // inst.edit(new_node);
                                 } catch (ex) {
                                     setTimeout(function () {
                                         inst.edit(new_node);
@@ -121,7 +121,6 @@
                             var inst = $.jstree.reference(data.reference);
                             var obj = inst.get_node(data.reference);
                             inst.edit(obj);
-                            //ajax保存到后台
                         }
                     },
                     "删除结点": {
@@ -139,7 +138,6 @@
                             } else {
                                 inst.delete_node(obj);
                             }
-                            //ajax保存到后台
                         }
                     }
                 }
@@ -198,6 +196,21 @@
                 },
                 error: function (xhr) {
                     console.log("修改结点错误提示： " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        }).on("delete_node.jstree", function (e, data) {
+            //ajax保存到后台
+            $.ajax({
+                type: "DELETE",
+                url: "http://localhost:8081/api/v1/dict/" + data.node.id,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    console.log("删除结点" + result.id);
+                },
+                error: function (xhr) {
+                    console.log("删除结点错误提示： " + xhr.status + " " + xhr.statusText);
                 }
             });
         });

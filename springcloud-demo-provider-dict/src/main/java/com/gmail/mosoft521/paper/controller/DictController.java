@@ -3,6 +3,7 @@ package com.gmail.mosoft521.paper.controller;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,5 +52,10 @@ public class DictController {
     public CommonDict modifyCommonDict(@RequestBody CommonDict commonDict) {
         CommonDict commonDictResult = this.dictService.modifyCommonDict(commonDict);
         return commonDictResult;
+    }
+
+    @DeleteMapping("/delDict/{dictId}")
+    public void delDict(@PathVariable Long dictId) {
+        this.dictService.delDict(dictId);
     }
 }

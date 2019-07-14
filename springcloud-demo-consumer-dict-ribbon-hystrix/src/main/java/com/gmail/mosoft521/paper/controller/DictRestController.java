@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,6 +109,7 @@ public class DictRestController {
     @PostMapping("/dict")
     public TreeVo insertDict(@RequestBody TreeVo treeVo) {
         CommonDict commonDict = new CommonDict();
+        commonDict.setDictCode(treeVo.getText());
         commonDict.setDictCodeText(treeVo.getText());
         CommonDict commonDictResult = this.restTemplate.postForObject("http://springcloud-demo-provider-dict/insertDict/" + treeVo.getParent() + "/" + treeVo.getText() + "/" + treeVo.getText(), commonDict, CommonDict.class);
         treeVo.setId(commonDictResult.getDictId().toString());
@@ -124,12 +126,24 @@ public class DictRestController {
     public String modifyDict(@RequestBody TreeVo treeVo) {
         CommonDict commonDict = new CommonDict();
         commonDict.setDictId(Long.parseLong(treeVo.getId()));
+        commonDict.setDictCode(treeVo.getText());
         commonDict.setDictCodeText(treeVo.getText());
         this.restTemplate.put("http://springcloud-demo-provider-dict/modifyCommonDict", commonDict);
         return "success";
     }
 
     public String modifyDictFallback(@RequestBody TreeVo treeVo) {
+        return "fail";
+    }
+
+    @HystrixCommand(fallbackMethod = "deleteDictFallback")
+    @DeleteMapping("/dict/{id}")
+    public String deleteDict(@PathVariable Long id) {
+        this.restTemplate.delete("http://springcloud-demo-provider-dict/delDict/" + id);
+        return "success";
+    }
+
+    public String deleteDictFallback(@PathVariable Long id) {
         return "fail";
     }
 }

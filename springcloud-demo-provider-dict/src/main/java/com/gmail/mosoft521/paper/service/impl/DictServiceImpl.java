@@ -4,6 +4,7 @@ import com.gmail.mosoft521.paper.constants.DisabledEnum;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictMapperExt;
 import com.gmail.mosoft521.paper.dao.ext.CommonDictTreePathMapperExt;
 import com.gmail.mosoft521.paper.entity.CommonDict;
+import com.gmail.mosoft521.paper.entity.CommonDictExample;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExample;
 import com.gmail.mosoft521.paper.service.DictService;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Service
 public class DictServiceImpl implements DictService {
 
+
     @Autowired
     private CommonDictMapperExt commonDictMapperExt;
 
@@ -35,17 +37,18 @@ public class DictServiceImpl implements DictService {
     @Override
     public List<CommonDict> findSonsByParentDictId(Long parentDictId) {
         //方法一：Java代码遍历
-        CommonDictTreePathExample example = new CommonDictTreePathExample();
-        CommonDictTreePathExample.Criteria criteria = example.createCriteria();
-        criteria.andAncDictIdEqualTo(parentDictId);
-        List<CommonDictTreePath> commonDictTreePaths = commonDictTreePathMapperExt.selectByExample(example);
-        List<CommonDict> commonDictList = new ArrayList<>();
-        for (CommonDictTreePath commonDictTreePath : commonDictTreePaths) {
-            CommonDict commonDict = commonDictMapperExt.selectByPrimaryKey(commonDictTreePath.getDesDictId());
-            commonDictList.add(commonDict);
-        }
-        //TODO:方法二：SQL遍历
-        commonDictList = commonDictMapperExt.findSonsByParentDictId(parentDictId);
+//        CommonDictTreePathExample example = new CommonDictTreePathExample();
+//        CommonDictTreePathExample.Criteria criteria = example.createCriteria();
+//        criteria.andAncDictIdEqualTo(parentDictId);
+//        criteria.andPathLengthEqualTo(1);
+//        List<CommonDictTreePath> commonDictTreePaths = commonDictTreePathMapperExt.selectByExample(example);
+//        List<CommonDict> commonDictList = new ArrayList<>();
+//        for (CommonDictTreePath commonDictTreePath : commonDictTreePaths) {
+//            CommonDict commonDict = commonDictMapperExt.selectByPrimaryKey(commonDictTreePath.getDesDictId());
+//            commonDictList.add(commonDict);
+//        }
+        //方法二：SQL遍历
+        List<CommonDict> commonDictList = commonDictMapperExt.findSonsByParentDictId(parentDictId);
         return commonDictList;
     }
 
@@ -126,8 +129,29 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public void delDict(Long dictId) {
-        //todo:删除字典！
-        commonDictMapperExt.deleteByPrimaryKey(dictId);
+        //先查询出以dictId为祖先的结点(包裹自身)，并记录之，为以后删除做准备
+        List<CommonDict> commonDictList = commonDictMapperExt.findTreeByAncDictIdIncludeSelf(dictId);
+        List<Long> delDictIds = new ArrayList<>(commonDictList.size());
+        for (CommonDict commonDict : commonDictList) {
+            delDictIds.add(commonDict.getDictId());
+        }
+
+        //先删除包含这些结点的路径：即祖先dictId含有或者子孙dictId含有的
+        CommonDictTreePathExample commonDictTreePathExample = new CommonDictTreePathExample();
+        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria1 = commonDictTreePathExample.createCriteria();
+        commonDictTreePathExampleCriteria1.andAncDictIdIn(delDictIds);
+        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria2 = commonDictTreePathExample.createCriteria();
+        commonDictTreePathExampleCriteria2.andDesDictIdIn(delDictIds);
+        commonDictTreePathExample.or(commonDictTreePathExampleCriteria2);
+        int count = commonDictTreePathMapperExt.deleteByExample(commonDictTreePathExample);
+        //log输出
+
+        //最后删除这些结点
+        CommonDictExample commonDictExample = new CommonDictExample();
+        CommonDictExample.Criteria commonDictExampleCriteria = commonDictExample.createCriteria();
+        commonDictExampleCriteria.andDictIdIn(delDictIds);
+        int count2 = commonDictMapperExt.deleteByExample(commonDictExample);
+        //log输出
     }
 
     @Override
