@@ -87,6 +87,7 @@ public class DictRestController {
         treeVo.setId(commonDictSelf.getDictId().toString());
         treeVo.setParent("#");
         treeVo.setText(commonDictSelf.getDictCodeText());
+        treeVo.setState("open");
         treeVoList.add(treeVo);
 
         CommonDictTreePathExt[] commonDictTreePathExts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findAllByPathLenth/1", CommonDictTreePathExt[].class);
@@ -97,6 +98,7 @@ public class DictRestController {
             treeVo.setId(commonDictTreePathExt.getDesDictId().toString());
             treeVo.setParent(commonDictTreePathExt.getAncDictId().toString());
             treeVo.setText(commonDictTreePathExt.getDesDictCodeText());
+            treeVo.setState("open");
             treeVoList.add(treeVo);
         }
         return treeVoList;
@@ -112,6 +114,7 @@ public class DictRestController {
             treeVo.setId(commonDict.getDictId().toString());
             treeVo.setParent(parentDictId.toString());
             treeVo.setText(commonDict.getDictCodeText());
+            treeVo.setState("open");
 
             treeVoList.add(treeVo);
             treeVoList.addAll(expand(commonDict.getDictId()));
@@ -125,6 +128,7 @@ public class DictRestController {
         treeVo.setId("1");
         treeVo.setParent("#");
         treeVo.setText("DEFAULT");
+        treeVo.setState("open");
         treeVoList.add(treeVo);
         return treeVoList;
     }
