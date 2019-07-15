@@ -147,15 +147,15 @@
                 "checkbox",
                 "contextmenu",
                 "dnd",
-                "massload",
+                // "massload", //惯性负载插件
                 "search",
                 "sort",
-                "state",
-                "types",
+                // "state", //状态插件
+                "types", //类型插件
                 "unique",
-                // "wholerow",
+                // "wholerow", //整行插件
                 "changed",
-                "conditionalselect"
+                "conditionalselect" //条件插件
             ]
 
         }).on('changed.jstree', function (e, data) {
@@ -179,7 +179,7 @@
                     console.log("新建结点" + result.id);
                 },
                 error: function (xhr) {
-                    console.log("新建结点错误提示： " + xhr.status + " " + xhr.statusText);
+                    console.log("新建结点错误提示： " + xhr.status);
                 }
             });
         }).on("rename_node.jstree", function (e, data) {
@@ -195,14 +195,14 @@
                     console.log("修改结点" + result);
                 },
                 error: function (xhr) {
-                    console.log("修改结点错误提示： " + xhr.status + " " + xhr.statusText);
+                    console.log("修改结点错误提示： " + xhr.status);
                 }
             });
         }).on("delete_node.jstree", function (e, data) {
             //ajax保存到后台
             $.ajax({
                 type: "DELETE",
-                url: "http://localhost:8081/api/v1/dict/" + data.node.id,
+                url: "http://localhost:8081/api/v1/delDict/" + data.node.id,
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -210,7 +210,7 @@
                     console.log("删除结点" + result);
                 },
                 error: function (xhr) {
-                    console.log("删除结点错误提示： " + xhr.status + " " + xhr.statusText);
+                    console.log("删除结点错误提示： " + xhr.status);
                 }
             });
         });

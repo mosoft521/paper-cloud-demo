@@ -55,7 +55,7 @@ public class DictController {
         return commonDict;
     }
 
-    @PutMapping("/modifyCommonDict")
+    @PutMapping("/modifyDict")
     public CommonDict modifyCommonDict(@RequestBody CommonDict commonDict) {
         CommonDict commonDictResult = this.dictService.modifyCommonDict(commonDict);
         return commonDictResult;

@@ -151,7 +151,7 @@ public class DictRestController {
         commonDict.setDictId(Long.parseLong(treeVo.getId()));
         commonDict.setDictCode(treeVo.getText());
         commonDict.setDictCodeText(treeVo.getText());
-        this.restTemplate.put("http://springcloud-demo-provider-dict/modifyCommonDict", commonDict);
+        this.restTemplate.put("http://springcloud-demo-provider-dict/modifyDict", commonDict);
         return "success";
     }
 
@@ -160,7 +160,7 @@ public class DictRestController {
     }
 
     @HystrixCommand(fallbackMethod = "deleteDictFallback")
-    @DeleteMapping("/dict/{id}")
+    @DeleteMapping("/delDict/{id}")
     public String deleteDict(@PathVariable Long id) {
         this.restTemplate.delete("http://springcloud-demo-provider-dict/delDict/" + id);
         return "success";
