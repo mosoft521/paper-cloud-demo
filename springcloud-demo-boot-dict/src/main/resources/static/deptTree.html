@@ -247,9 +247,11 @@
                     console.log("删除结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
                 }
             });
+        }).on("ready.jstree", function (e, data) {
+            var ref = $('#deptTree').jstree(true);
+            ref.open_all();
         });
-        var ref = $('#deptTree').jstree(true);
-        ref.open_all();
+
     });
 </script>
 </body>
