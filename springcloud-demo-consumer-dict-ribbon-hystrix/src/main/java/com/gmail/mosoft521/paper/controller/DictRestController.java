@@ -1,5 +1,6 @@
 package com.gmail.mosoft521.paper.controller;
 
+import com.gmail.mosoft521.paper.dto.BaseDTO;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.vo.TreeVo;
@@ -146,27 +147,39 @@ public class DictRestController {
 
     @HystrixCommand(fallbackMethod = "modifyDictFallback")
     @PutMapping("/modifyDict")
-    public String modifyDict(@RequestBody TreeVo treeVo) {
+    public BaseDTO modifyDict(@RequestBody TreeVo treeVo) {
+        BaseDTO baseDTO = new BaseDTO();
         CommonDict commonDict = new CommonDict();
         commonDict.setDictId(Long.parseLong(treeVo.getId()));
         commonDict.setDictCode(treeVo.getText());
         commonDict.setDictCodeText(treeVo.getText());
         this.restTemplate.put("http://springcloud-demo-provider-dict/modifyDict", commonDict);
-        return "success";
+        baseDTO.setCode(200);
+        baseDTO.setMessage("success");
+        return baseDTO;
     }
 
-    public String modifyDictFallback(@RequestBody TreeVo treeVo) {
-        return "fail";
+    public BaseDTO modifyDictFallback(@RequestBody TreeVo treeVo) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setCode(400);
+        baseDTO.setMessage("fail");
+        return baseDTO;
     }
 
     @HystrixCommand(fallbackMethod = "deleteDictFallback")
     @DeleteMapping("/delDict/{id}")
-    public String deleteDict(@PathVariable Long id) {
+    public BaseDTO deleteDict(@PathVariable Long id) {
+        BaseDTO baseDTO = new BaseDTO();
         this.restTemplate.delete("http://springcloud-demo-provider-dict/delDict/" + id);
-        return "success";
+        baseDTO.setCode(200);
+        baseDTO.setMessage("success");
+        return baseDTO;
     }
 
-    public String deleteDictFallback(@PathVariable Long id) {
-        return "fail";
+    public BaseDTO deleteDictFallback(@PathVariable Long id) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setCode(400);
+        baseDTO.setMessage("fail");
+        return baseDTO;
     }
 }

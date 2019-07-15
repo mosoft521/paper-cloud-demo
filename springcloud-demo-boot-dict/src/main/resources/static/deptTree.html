@@ -60,6 +60,7 @@
                     var jsonarray = [];
                     $.ajax({
                         type: "GET",
+                        cache: false,
                         url: "http://localhost:8081/api/v1/dict/findSonsByParentDictIdIncludeSelf/1",
                         // dataType: "json",
                         async: false,
@@ -170,6 +171,7 @@
             //ajax保存到后台
             $.ajax({
                 type: "POST",
+                cache: false,
                 url: "http://localhost:8081/api/v1/insertDict",
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -178,39 +180,45 @@
                 success: function (result) {
                     console.log("新建结点" + result.id);
                 },
-                error: function (xhr) {
-                    console.log("新建结点错误提示： " + xhr.status);
+                error: function (xhr, status, error) {
+                    console.log("新建结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
                 }
             });
         }).on("rename_node.jstree", function (e, data) {
             //ajax保存到后台
             $.ajax({
                 type: "PUT",
+                cache: false,
                 url: "http://localhost:8081/api/v1/modifyDict",
                 contentType: "application/json;charset=utf-8",
-                dataType: "json",
+                // dataType: "text",//返回String时用
+                dataType: "json",//返回json时用
                 data: JSON.stringify({"id": data.node.id, "text": data.node.text}),
                 async: false,
                 success: function (result) {
-                    console.log("修改结点" + result);
+                    // console.log("删除结点" + result);//返回String时用
+                    console.log("删除结点" + result.message);//返回json时用
                 },
-                error: function (xhr) {
-                    console.log("修改结点错误提示： " + xhr.status);
+                error: function (xhr, status, error) {
+                    console.log("修改结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
                 }
             });
         }).on("delete_node.jstree", function (e, data) {
             //ajax保存到后台
             $.ajax({
                 type: "DELETE",
+                cache: false,
                 url: "http://localhost:8081/api/v1/delDict/" + data.node.id,
                 contentType: "application/json;charset=utf-8",
-                dataType: "json",
+                // dataType: "text",//返回String时用
+                dataType: "json",//返回json时用
                 async: false,
                 success: function (result) {
-                    console.log("删除结点" + result);
+                    // console.log("删除结点" + result);//返回String时用
+                    console.log("删除结点" + result.message);//返回json时用
                 },
-                error: function (xhr) {
-                    console.log("删除结点错误提示： " + xhr.status);
+                error: function (xhr, status, error) {
+                    console.log("删除结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
                 }
             });
         });
