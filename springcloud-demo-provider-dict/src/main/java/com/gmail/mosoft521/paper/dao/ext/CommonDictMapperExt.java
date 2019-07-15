@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 对应的SQL都有点绕，BE CAUTION
+ */
 @Repository
 public interface CommonDictMapperExt extends CommonDictMapper {
     /**

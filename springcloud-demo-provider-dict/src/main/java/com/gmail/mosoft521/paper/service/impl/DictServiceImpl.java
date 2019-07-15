@@ -99,6 +99,7 @@ public class DictServiceImpl implements DictService {
         commonDict.setDictCode(code);
         commonDict.setDictCodeText(codeText);
         commonDict.setDisabled(DisabledEnum.ENABLED.getCode());
+        commonDict.setCreater(1L);
         commonDict.setVersion(1L);
         commonDict.setCreater(null);
         commonDict.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -106,30 +107,29 @@ public class DictServiceImpl implements DictService {
         Long selfId = commonDict.getDictId();
         //查询出父的所有祖先路径（包括父）
         List<CommonDictTreePath> parentList = commonDictTreePathMapperExt.findTreeByDesDictIdIncludeSelf(parentId);
-        List<CommonDictTreePath> commonDictTreePathList = new ArrayList<CommonDictTreePath>(parentList.size());
         for (int i = 0; i < parentList.size(); i++) {
             CommonDictTreePath commonDictTreePathOld = parentList.get(i);
             CommonDictTreePath commonDictTreePathNew = new CommonDictTreePath();
             commonDictTreePathNew.setAncDictId(commonDictTreePathOld.getAncDictId());
             commonDictTreePathNew.setDesDictId(selfId);
             commonDictTreePathNew.setDisabled(DisabledEnum.ENABLED.getCode());
+            commonDictTreePathNew.setCreater(1L);
             commonDictTreePathNew.setVersion(1L);
             commonDictTreePathNew.setCreater(null);
             commonDictTreePathNew.setCreateTime(new Timestamp(System.currentTimeMillis()));
             commonDictTreePathNew.setPathLength(commonDictTreePathOld.getPathLength() + 1);
-            commonDictTreePathList.add(commonDictTreePathNew);
+            commonDictTreePathMapperExt.insert(commonDictTreePathNew);
         }
         //添加自身到自身的关系
         CommonDictTreePath commonDictTreePath = new CommonDictTreePath();
         commonDictTreePath.setAncDictId(selfId);
         commonDictTreePath.setDesDictId(selfId);
+        commonDictTreePath.setCreater(1L);
         commonDictTreePath.setVersion(1L);
         commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
+        commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
         commonDictTreePath.setPathLength(0);
-        commonDictTreePathList.add(commonDictTreePath);
-        for (CommonDictTreePath commonDictTreePath1 : commonDictTreePathList) {
-            commonDictTreePathMapperExt.insert(commonDictTreePath1);
-        }
+        commonDictTreePathMapperExt.insert(commonDictTreePath);
         return commonDict;
     }
 
@@ -181,35 +181,73 @@ public class DictServiceImpl implements DictService {
     @Override
     @Transactional
     public void moveDict(Long dictId, Long newParentId) {
-//        //先查询出以dictId的祖先结点(不包括自身)，并记录之，为以后插入做准备
-//        List<CommonDict> ansOldDictList = commonDictMapperExt.findTreeByDesDictId(dictId);
-//        List<Long> ansOldDictIds = new ArrayList<>(ansOldDictList.size());
-//        for (CommonDict commonDict : ansOldDictList) {
-//            ansOldDictIds.add(commonDict.getDictId());
-//        }
-//
-//        //先查询出以newParentId的祖先结点(包括自身)，并记录之，为以后插入做准备
-//        List<CommonDict> ansNewDictList = commonDictMapperExt.findTreeByDesDictIdIncludeSelf(dictId);
-//        List<Long> ansNewDictIds = new ArrayList<>(ansNewDictList.size());
-//        for (CommonDict commonDict : ansOldDictList) {
-//            ansNewDictIds.add(commonDict.getDictId());
-//        }
-//
-//        //先删除包含这些结点的路径：即祖先dictId含有或者子孙dictId含有的
-//        CommonDictTreePathExample commonDictTreePathExample = new CommonDictTreePathExample();
-//        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria1 = commonDictTreePathExample.createCriteria();
-//        commonDictTreePathExampleCriteria1.andAncDictIdIn(delDictIds);
-//        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria2 = commonDictTreePathExample.createCriteria();
-//        commonDictTreePathExampleCriteria2.andDesDictIdIn(delDictIds);
-//        commonDictTreePathExample.or(commonDictTreePathExampleCriteria2);
-//        int count = commonDictTreePathMapperExt.deleteByExample(commonDictTreePathExample);
-//        //log输出
-//
-//        //最后删除这些结点
-//        CommonDictExample commonDictExample = new CommonDictExample();
-//        CommonDictExample.Criteria commonDictExampleCriteria = commonDictExample.createCriteria();
-//        commonDictExampleCriteria.andDictIdIn(delDictIds);
-//        int count2 = commonDictMapperExt.deleteByExample(commonDictExample);
-//        //log输出
+        //----------------------------------------
+        //（一）剪断子树与原祖系的所有路径
+        //----------------------------------------
+
+        //①查询出原祖系结点：即以dictId的祖先结点(不包括自身)，并记录之，为以后删除做准备
+        List<CommonDict> ancOldDictList = commonDictMapperExt.findTreeByDesDictId(dictId);
+        List<Long> ancOldDictIds = new ArrayList<>(ancOldDictList.size());
+        for (CommonDict commonDict : ancOldDictList) {
+            ancOldDictIds.add(commonDict.getDictId());
+        }
+
+        //②查询出子树结点：即以dictId为祖先的结点(包括自身)，并记录之，为以后删除做准备
+        List<CommonDict> subCommonDictList = commonDictMapperExt.findTreeByAncDictIdIncludeSelf(dictId);
+        List<Long> subDictIds = new ArrayList<>(subCommonDictList.size());
+        for (CommonDict commonDict : subCommonDictList) {
+            subDictIds.add(commonDict.getDictId());
+        }
+
+        //③删除包含这些结点的路径：即祖先dictId含有或者子孙dictId含有的
+        CommonDictTreePathExample commonDictTreePathExample = new CommonDictTreePathExample();
+        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria = commonDictTreePathExample.createCriteria();
+        commonDictTreePathExampleCriteria.andAncDictIdIn(ancOldDictIds);
+        commonDictTreePathExampleCriteria.andDesDictIdIn(subDictIds);
+        int count = commonDictTreePathMapperExt.deleteByExample(commonDictTreePathExample);
+        //log输出
+
+        //----------------------------------------
+        //（二）添加子树与新祖系路径
+        //----------------------------------------
+
+        //④查询出新祖系结点：即以newParentId的祖先结点(包括自身)，【必须按照从子孙到祖先排序，因为查的是以子孙结点为条件，则pathLength升序】并记录之，为以后插入做准备
+        List<CommonDict> ancNewDictList = commonDictMapperExt.findTreeByDesDictIdIncludeSelf(newParentId);
+        List<Long> ancNewDictIds = new ArrayList<>(ancNewDictList.size());
+        for (CommonDict commonDict : ancNewDictList) {
+            ancNewDictIds.add(commonDict.getDictId());
+        }
+
+        //⑤查询出子树所有路径，并按dtp.anc_dict_id, dtp.des_dict_id,dtp.path_length排序
+        List<CommonDictTreePath> subCommonDictTreePathList = commonDictTreePathMapperExt.findTreeByAncDictIdIncludeSelf(dictId);
+
+        //⑥插入路径结点，要求前两步按照一定规律来
+        int ancPathLength = 0;
+        for (Long ancDictId : ancNewDictIds) {
+            ++ancPathLength;
+            for (CommonDictTreePath subCommonDictTreePath : subCommonDictTreePathList) {
+                //插入路径
+                CommonDictTreePath commonDictTreePath = new CommonDictTreePath();
+                commonDictTreePath.setAncDictId(ancDictId);
+                commonDictTreePath.setDesDictId(subCommonDictTreePath.getDesDictId());
+                commonDictTreePath.setCreater(1L);
+                commonDictTreePath.setVersion(1L);
+                commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
+                commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
+                commonDictTreePath.setPathLength(subCommonDictTreePath.getPathLength() + ancPathLength);
+                commonDictTreePathMapperExt.insert(commonDictTreePath);
+            }
+        }
+
+//        //⑦插入点睛之笔路径
+//        CommonDictTreePath commonDictTreePath = new CommonDictTreePath();
+//        commonDictTreePath.setAncDictId(newParentId);
+//        commonDictTreePath.setDesDictId(dictId);
+//        commonDictTreePath.setCreater(1L);
+//        commonDictTreePath.setVersion(1L);
+//        commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
+//        commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
+//        commonDictTreePath.setPathLength(1);
+//        commonDictTreePathMapperExt.insert(commonDictTreePath);
     }
 }

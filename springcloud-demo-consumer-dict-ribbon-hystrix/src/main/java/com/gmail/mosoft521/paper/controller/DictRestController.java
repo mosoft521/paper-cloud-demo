@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -157,6 +158,8 @@ public class DictRestController {
         commonDict.setDictId(Long.parseLong(treeVo.getId()));
         commonDict.setDictCode(treeVo.getText());
         commonDict.setDictCodeText(treeVo.getText());
+        commonDict.setModifier(1L);
+        commonDict.setModifyTime(new Timestamp(System.currentTimeMillis()));
         this.restTemplate.put("http://springcloud-demo-provider-dict/modifyDict", commonDict);
         baseDTO.setCode(200);
         baseDTO.setMessage("success");

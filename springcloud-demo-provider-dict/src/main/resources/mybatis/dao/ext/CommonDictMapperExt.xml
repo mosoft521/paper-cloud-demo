@@ -112,7 +112,7 @@
             inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
             WHERE
             dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
-            AND dtp.path_length > 0
+            order by dtp.path_length asc
     </select>
 
     <select id="findByParentDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
