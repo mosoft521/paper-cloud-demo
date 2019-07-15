@@ -186,4 +186,21 @@ public class DictRestController {
         baseDTO.setMessage("fail");
         return baseDTO;
     }
+
+    @HystrixCommand(fallbackMethod = "moveDictFallback")
+    @DeleteMapping("/moveDict/{id}/{newParentId}")
+    public BaseDTO moveDict(@PathVariable Long id, @PathVariable Long newParentId) {
+        BaseDTO baseDTO = new BaseDTO();
+        this.restTemplate.delete("http://springcloud-demo-provider-dict/moveDict/" + id + "/" + newParentId);
+        baseDTO.setCode(200);
+        baseDTO.setMessage("success");
+        return baseDTO;
+    }
+
+    public BaseDTO moveDictFallback(@PathVariable Long id, @PathVariable Long newParentId) {
+        BaseDTO baseDTO = new BaseDTO();
+        baseDTO.setCode(400);
+        baseDTO.setMessage("fail");
+        return baseDTO;
+    }
 }

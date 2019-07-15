@@ -65,4 +65,9 @@ public class DictController {
     public void delDict(@PathVariable Long dictId) {
         this.dictService.delDict(dictId);
     }
+
+    @DeleteMapping("/moveDict/{id}/{newParentId}")
+    public void moveDict(@PathVariable Long id, @PathVariable Long newParentId) {
+        this.dictService.moveDict(id, newParentId);
+    }
 }

@@ -247,6 +247,26 @@
                     console.log("删除结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
                 }
             });
+        }).on("move_node.jstree", function (e, data) {
+            //ajax保存到后台
+            $.ajax({
+                type: "DELETE",
+                cache: false,
+                url: "http://localhost:8081/api/v1/moveDict/" + data.node.id + "/" + data.parent,
+                contentType: "application/json;charset=utf-8",
+                // dataType: "text",//返回String时用
+                dataType: "json",//返回json时用
+                async: false,
+                success: function (result) {
+                    // console.log("移动结点" + result);//返回String时用
+                    console.log("移动结点" + result.message);//返回json时用
+                    var ref = $('#deptTree').jstree(true);
+                    ref.refresh();
+                },
+                error: function (xhr, status, error) {
+                    console.log("移动结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
+                }
+            });
         }).on("ready.jstree", function (e, data) {
             var ref = $('#deptTree').jstree(true);
             ref.open_all();

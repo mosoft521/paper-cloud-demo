@@ -110,4 +110,13 @@ public interface DictService {
      * @return
      */
     CommonDict modifyCommonDict(CommonDict commonDict);
+
+    /**
+     * 移动字典节点到新的父节点
+     *
+     * @param dictId      字典id
+     * @param newParentId 新父节点id
+     * @return
+     */
+    void moveDict(Long dictId, Long newParentId);
 }

@@ -134,6 +134,7 @@ public class DictServiceImpl implements DictService {
     }
 
     @Override
+    @Transactional
     public void delDict(Long dictId) {
         //先查询出以dictId为祖先的结点(包裹自身)，并记录之，为以后删除做准备
         List<CommonDict> commonDictList = commonDictMapperExt.findTreeByAncDictIdIncludeSelf(dictId);
@@ -175,5 +176,40 @@ public class DictServiceImpl implements DictService {
     public CommonDict modifyCommonDict(CommonDict commonDict) {
         commonDictMapperExt.updateByPrimaryKeySelective(commonDict);
         return commonDict;
+    }
+
+    @Override
+    @Transactional
+    public void moveDict(Long dictId, Long newParentId) {
+//        //先查询出以dictId的祖先结点(不包括自身)，并记录之，为以后插入做准备
+//        List<CommonDict> ansOldDictList = commonDictMapperExt.findTreeByDesDictId(dictId);
+//        List<Long> ansOldDictIds = new ArrayList<>(ansOldDictList.size());
+//        for (CommonDict commonDict : ansOldDictList) {
+//            ansOldDictIds.add(commonDict.getDictId());
+//        }
+//
+//        //先查询出以newParentId的祖先结点(包括自身)，并记录之，为以后插入做准备
+//        List<CommonDict> ansNewDictList = commonDictMapperExt.findTreeByDesDictIdIncludeSelf(dictId);
+//        List<Long> ansNewDictIds = new ArrayList<>(ansNewDictList.size());
+//        for (CommonDict commonDict : ansOldDictList) {
+//            ansNewDictIds.add(commonDict.getDictId());
+//        }
+//
+//        //先删除包含这些结点的路径：即祖先dictId含有或者子孙dictId含有的
+//        CommonDictTreePathExample commonDictTreePathExample = new CommonDictTreePathExample();
+//        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria1 = commonDictTreePathExample.createCriteria();
+//        commonDictTreePathExampleCriteria1.andAncDictIdIn(delDictIds);
+//        CommonDictTreePathExample.Criteria commonDictTreePathExampleCriteria2 = commonDictTreePathExample.createCriteria();
+//        commonDictTreePathExampleCriteria2.andDesDictIdIn(delDictIds);
+//        commonDictTreePathExample.or(commonDictTreePathExampleCriteria2);
+//        int count = commonDictTreePathMapperExt.deleteByExample(commonDictTreePathExample);
+//        //log输出
+//
+//        //最后删除这些结点
+//        CommonDictExample commonDictExample = new CommonDictExample();
+//        CommonDictExample.Criteria commonDictExampleCriteria = commonDictExample.createCriteria();
+//        commonDictExampleCriteria.andDictIdIn(delDictIds);
+//        int count2 = commonDictMapperExt.deleteByExample(commonDictExample);
+//        //log输出
     }
 }
