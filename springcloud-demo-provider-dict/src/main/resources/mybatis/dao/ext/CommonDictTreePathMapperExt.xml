@@ -13,6 +13,7 @@
             dtp.anc_dict_id,
             dtp.des_dict_id,
             dtp.path_length,
+            dtp.sort_no,
             dtp.creater,
             dtp.create_time,
             dtp.modifier,
@@ -23,7 +24,7 @@
             common_dict_tree_path dtp
             WHERE
             dtp.anc_dict_id = #{desDictId,jdbcType=BIGINT}
-            order by dtp.anc_dict_id, dtp.des_dict_id,dtp.path_length
+            order by dtp.path_length, dtp.sort_no
     </select>
 
     <select id="findTreeByDesDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictTreePathMapper.BaseResultMap">
@@ -31,6 +32,7 @@
             dtp.anc_dict_id,
             dtp.des_dict_id,
             dtp.path_length,
+            dtp.sort_no,
             dtp.creater,
             dtp.create_time,
             dtp.modifier,
@@ -41,6 +43,7 @@
             common_dict_tree_path dtp
             WHERE
             dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
+            order by dtp.path_length
     </select>
 
     <select id="findAllByPathLenth" parameterType="java.lang.Integer" resultMap="ExtBaseResultMap">
@@ -52,6 +55,7 @@
             d2.DICT_CODE as DES_DICT_CODE,
             d2.DICT_CODE_TEXT as DES_DICT_CODE_TEXT,
             dtp.path_length,
+            dtp.sort_no,
             dtp.creater,
             dtp.create_time,
             dtp.modifier,
@@ -64,6 +68,7 @@
             inner join common_dict d2 ON dtp.des_dict_id = d2.dict_id
             WHERE
             dtp.path_length = #{pathLength,jdbcType=INTEGER}
+            order by dtp.anc_dict_id, dtp.des_dict_id, dtp.sort_no
     </select>
 
 </mapper>

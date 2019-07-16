@@ -18,6 +18,7 @@
             WHERE
             dtp.anc_dict_id = #{parentDictId,jdbcType=BIGINT}
             AND dtp.path_length = 1
+            order by dtp.sort_no
     </select>
 
     <select id="findSonsByParentDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
@@ -37,6 +38,7 @@
             WHERE
             dtp.anc_dict_id = #{parentDictId,jdbcType=BIGINT}
             AND ( dtp.path_length = 0 or dtp.path_length = 1)
+            order by dtp.path_length,dtp.sort_no
     </select>
 
     <select id="findTreeByAncDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
@@ -57,6 +59,7 @@
             dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
             AND dtp.path_length > 0
             AND d.dict_id>0
+            order by dtp.path_length, dtp.sort_no
     </select>
 
     <select id="findTreeByAncDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
@@ -75,6 +78,7 @@
             LEFT JOIN common_dict d ON dtp.des_dict_id = d.dict_id
             WHERE
             dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+            order by dtp.path_length, dtp.sort_no
     </select>
 
     <select id="findTreeByDesDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
@@ -94,6 +98,7 @@
             WHERE
             dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
             AND dtp.path_length > 0
+            order by dtp.path_length, dtp.sort_no
     </select>
 
     <select id="findTreeByDesDictIdIncludeSelf" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
@@ -112,10 +117,10 @@
             inner JOIN common_dict d ON dtp.anc_dict_id = d.dict_id
             WHERE
             dtp.des_dict_id = #{desDictId,jdbcType=BIGINT}
-            order by dtp.path_length asc
+            order by dtp.path_length, dtp.sort_no
     </select>
 
-    <select id="findByParentDictId" parameterType="java.lang.Long" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
+    <select id="findByParentDictId" parameterType="HashMap" resultMap="com.gmail.mosoft521.paper.dao.CommonDictMapper.BaseResultMap">
         SELECT
             d.dict_id dictId,
             d.dict_code_text dictCodeText
@@ -125,5 +130,6 @@
             WHERE
             dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
             AND dtp.path_length = #{pathLength,jdbcType=BIGINT}
+            order by dtp.path_length, dtp.sort_no
     </select>
 </mapper>
