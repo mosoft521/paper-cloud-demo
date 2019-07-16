@@ -5,6 +5,7 @@
     <id column="ANC_DICT_ID" jdbcType="BIGINT" property="ancDictId" />
     <id column="DES_DICT_ID" jdbcType="BIGINT" property="desDictId" />
     <result column="PATH_LENGTH" jdbcType="INTEGER" property="pathLength" />
+    <result column="sort_no" jdbcType="INTEGER" property="sortNo" />
     <result column="creater" jdbcType="BIGINT" property="creater" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modifier" jdbcType="BIGINT" property="modifier" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ANC_DICT_ID, DES_DICT_ID, PATH_LENGTH, creater, create_time, modifier, modify_time, 
+    ANC_DICT_ID, DES_DICT_ID, PATH_LENGTH, sort_no, creater, create_time, modifier, modify_time, 
     version, disabled
   </sql>
   <select id="selectByExample" parameterType="com.gmail.mosoft521.paper.entity.CommonDictTreePathExample" resultMap="BaseResultMap">
@@ -108,13 +109,13 @@
   </delete>
   <insert id="insert" parameterType="com.gmail.mosoft521.paper.entity.CommonDictTreePath">
     insert into common_dict_tree_path (ANC_DICT_ID, DES_DICT_ID, PATH_LENGTH, 
-      creater, create_time, modifier, 
-      modify_time, version, disabled
-      )
+      sort_no, creater, create_time, 
+      modifier, modify_time, version, 
+      disabled)
     values (#{ancDictId,jdbcType=BIGINT}, #{desDictId,jdbcType=BIGINT}, #{pathLength,jdbcType=INTEGER}, 
-      #{creater,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=BIGINT}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, #{disabled,jdbcType=INTEGER}
-      )
+      #{sortNo,jdbcType=INTEGER}, #{creater,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, #{version,jdbcType=BIGINT}, 
+      #{disabled,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.gmail.mosoft521.paper.entity.CommonDictTreePath">
     insert into common_dict_tree_path
@@ -127,6 +128,9 @@
       </if>
       <if test="pathLength != null">
         PATH_LENGTH,
+      </if>
+      <if test="sortNo != null">
+        sort_no,
       </if>
       <if test="creater != null">
         creater,
@@ -156,6 +160,9 @@
       </if>
       <if test="pathLength != null">
         #{pathLength,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null">
+        #{sortNo,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=BIGINT},
@@ -195,6 +202,9 @@
       <if test="record.pathLength != null">
         PATH_LENGTH = #{record.pathLength,jdbcType=INTEGER},
       </if>
+      <if test="record.sortNo != null">
+        sort_no = #{record.sortNo,jdbcType=INTEGER},
+      </if>
       <if test="record.creater != null">
         creater = #{record.creater,jdbcType=BIGINT},
       </if>
@@ -223,6 +233,7 @@
     set ANC_DICT_ID = #{record.ancDictId,jdbcType=BIGINT},
       DES_DICT_ID = #{record.desDictId,jdbcType=BIGINT},
       PATH_LENGTH = #{record.pathLength,jdbcType=INTEGER},
+      sort_no = #{record.sortNo,jdbcType=INTEGER},
       creater = #{record.creater,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modifier = #{record.modifier,jdbcType=BIGINT},
@@ -238,6 +249,9 @@
     <set>
       <if test="pathLength != null">
         PATH_LENGTH = #{pathLength,jdbcType=INTEGER},
+      </if>
+      <if test="sortNo != null">
+        sort_no = #{sortNo,jdbcType=INTEGER},
       </if>
       <if test="creater != null">
         creater = #{creater,jdbcType=BIGINT},
@@ -264,6 +278,7 @@
   <update id="updateByPrimaryKey" parameterType="com.gmail.mosoft521.paper.entity.CommonDictTreePath">
     update common_dict_tree_path
     set PATH_LENGTH = #{pathLength,jdbcType=INTEGER},
+      sort_no = #{sortNo,jdbcType=INTEGER},
       creater = #{creater,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modifier = #{modifier,jdbcType=BIGINT},

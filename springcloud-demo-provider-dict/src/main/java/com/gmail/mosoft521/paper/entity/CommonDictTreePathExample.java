@@ -285,6 +285,66 @@ public class CommonDictTreePathExample {
             return (Criteria) this;
         }
 
+        public Criteria andSortNoIsNull() {
+            addCriterion("sort_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoIsNotNull() {
+            addCriterion("sort_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoEqualTo(Integer value) {
+            addCriterion("sort_no =", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoNotEqualTo(Integer value) {
+            addCriterion("sort_no <>", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoGreaterThan(Integer value) {
+            addCriterion("sort_no >", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_no >=", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoLessThan(Integer value) {
+            addCriterion("sort_no <", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_no <=", value, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoIn(List<Integer> values) {
+            addCriterion("sort_no in", values, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoNotIn(List<Integer> values) {
+            addCriterion("sort_no not in", values, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoBetween(Integer value1, Integer value2) {
+            addCriterion("sort_no between", value1, value2, "sortNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNoNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_no not between", value1, value2, "sortNo");
+            return (Criteria) this;
+        }
+
         public Criteria andCreaterIsNull() {
             addCriterion("creater is null");
             return (Criteria) this;

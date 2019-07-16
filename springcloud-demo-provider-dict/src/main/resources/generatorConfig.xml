@@ -65,11 +65,11 @@
         <table schema="" tableName="common_dict_tree_path" domainObjectName="CommonDictTreePath">
         </table>
 
-        <table schema="" tableName="common_xzqh" domainObjectName="CommonXzqh">
-            <generatedKey column="DICT_ID" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table schema="" tableName="common_xzqh_tree_path" domainObjectName="CommonXzqhTreePath">
-        </table>
+<!--        <table schema="" tableName="common_xzqh" domainObjectName="CommonXzqh">-->
+<!--            <generatedKey column="DICT_ID" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table schema="" tableName="common_xzqh_tree_path" domainObjectName="CommonXzqhTreePath">-->
+<!--        </table>-->
 
     </context>
 </generatorConfiguration>
