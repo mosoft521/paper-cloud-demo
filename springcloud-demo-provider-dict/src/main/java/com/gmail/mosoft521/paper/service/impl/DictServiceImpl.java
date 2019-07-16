@@ -131,6 +131,7 @@ public class DictServiceImpl implements DictService {
         commonDictTreePath.setVersion(1L);
         commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
         commonDictTreePath.setPathLength(0);
+        commonDictTreePath.setSortNo(0);
         commonDictTreePathMapperExt.insert(commonDictTreePath);
         return commonDict;
     }
@@ -236,20 +237,13 @@ public class DictServiceImpl implements DictService {
                 commonDictTreePath.setVersion(1L);
                 commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
                 commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                commonDictTreePath.setPathLength(subCommonDictTreePath.getPathLength() + ancPathLength);
+                int newPathLength = subCommonDictTreePath.getPathLength() + ancPathLength;
+                commonDictTreePath.setPathLength(newPathLength);
+                //sortNo计算:以此时的ancDictId为祖先，此时的pathLength，查询出最大的sortNo，再加1为新路径的sortNo
+                Integer sortNo = commonDictTreePathMapperExt.findMaxSortNoByAncDictIdAndPathLenth(ancDictId, newPathLength);
+                commonDictTreePath.setSortNo(sortNo + 1);
                 commonDictTreePathMapperExt.insert(commonDictTreePath);
             }
         }
-
-//        //⑦插入点睛之笔路径
-//        CommonDictTreePath commonDictTreePath = new CommonDictTreePath();
-//        commonDictTreePath.setAncDictId(newParentId);
-//        commonDictTreePath.setDesDictId(dictId);
-//        commonDictTreePath.setCreater(1L);
-//        commonDictTreePath.setVersion(1L);
-//        commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
-//        commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
-//        commonDictTreePath.setPathLength(1);
-//        commonDictTreePathMapperExt.insert(commonDictTreePath);
     }
 }

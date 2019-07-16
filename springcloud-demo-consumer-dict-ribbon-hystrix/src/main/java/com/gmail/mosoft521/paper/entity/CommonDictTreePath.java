@@ -5,6 +5,8 @@ import java.util.Date;
 public class CommonDictTreePath extends CommonDictTreePathKey {
     private Integer pathLength;
 
+    private Integer sortNo;
+
     private Long creater;
 
     private Date createTime;
@@ -23,6 +25,14 @@ public class CommonDictTreePath extends CommonDictTreePathKey {
 
     public void setPathLength(Integer pathLength) {
         this.pathLength = pathLength;
+    }
+
+    public Integer getSortNo() {
+        return sortNo;
+    }
+
+    public void setSortNo(Integer sortNo) {
+        this.sortNo = sortNo;
     }
 
     public Long getCreater() {

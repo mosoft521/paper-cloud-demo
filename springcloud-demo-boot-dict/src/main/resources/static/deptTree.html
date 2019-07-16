@@ -79,9 +79,10 @@
                     callback.call(this, jsonarray);
                 },
                 "check_callback": function (operation, node, node_parent, node_position, more) {
+                    console.log('check_callback operation= ' + operation + ', node= ' + node.text + ', node_parent= ' + node_parent.text + ', node_position= ' + node_position + ', more= ' + more);
                     if (operation === "move_node") {
-                        var node = this.get_node(node_parent);
-                        if (node.id === "#") {
+                        var node1 = this.get_node(node);
+                        if (node1.id === "#") {
                             alert("根结点不可以移动");
                             return false;
                         }
@@ -90,8 +91,8 @@
                             return false;
                         }
                     } else if (operation === "delete_node") {
-                        var node = this.get_node(node_parent);
-                        if (node.id === "#") {
+                        var node1 = this.get_node(node);
+                        if (node1.id === "#") {
                             alert("根结点不可以删除");
                             return false;
                         }
