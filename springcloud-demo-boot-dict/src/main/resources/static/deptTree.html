@@ -33,7 +33,7 @@
 </head>
 <body>
 
-<h1>龙生九子</h1>
+<h1>DEMO</h1>
 <div id="deptTree" class="demo"></div>
 
 <script src="jquery-3.3.1.js"></script>
@@ -201,6 +201,7 @@
                     console.log("新建结点" + result.id);
                     var ref = $('#deptTree').jstree(true);
                     ref.refresh();
+                    ref.open_all();
                 },
                 error: function (xhr, status, error) {
                     console.log("新建结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
@@ -222,6 +223,7 @@
                     console.log("修改结点" + result.message);//返回json时用
                     var ref = $('#deptTree').jstree(true);
                     ref.refresh();
+                    ref.open_all();
                 },
                 error: function (xhr, status, error) {
                     console.log("修改结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
@@ -242,6 +244,7 @@
                     console.log("删除结点" + result.message);//返回json时用
                     var ref = $('#deptTree').jstree(true);
                     ref.refresh();
+                    ref.open_all();
                 },
                 error: function (xhr, status, error) {
                     console.log("删除结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);
@@ -262,6 +265,7 @@
                     console.log("移动结点" + result.message);//返回json时用
                     var ref = $('#deptTree').jstree(true);
                     ref.refresh();
+                    ref.open_all();
                 },
                 error: function (xhr, status, error) {
                     console.log("移动结点错误提示： " + xhr.readyState + " " + xhr.status + " " + status + " " + error);

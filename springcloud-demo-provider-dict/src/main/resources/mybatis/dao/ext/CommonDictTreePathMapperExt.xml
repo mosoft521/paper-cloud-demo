@@ -23,7 +23,7 @@
             FROM
             common_dict_tree_path dtp
             WHERE
-            dtp.anc_dict_id = #{desDictId,jdbcType=BIGINT}
+            dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
             order by dtp.path_length, dtp.sort_no
     </select>
 
@@ -69,6 +69,16 @@
             WHERE
             dtp.path_length = #{pathLength,jdbcType=INTEGER}
             order by dtp.anc_dict_id, dtp.des_dict_id, dtp.sort_no
+    </select>
+
+    <select id="findMaxSortNoByAncDictIdAndPathLenth" resultType="Integer">
+        SELECT
+            IFNULL(MAX(dtp.sort_no),0) as sort_no
+            FROM
+            common_dict_tree_path dtp
+            WHERE
+            dtp.anc_dict_id = #{ancDictId,jdbcType=BIGINT}
+            and dtp.path_length = #{pathLength,jdbcType=INTEGER}
     </select>
 
 </mapper>

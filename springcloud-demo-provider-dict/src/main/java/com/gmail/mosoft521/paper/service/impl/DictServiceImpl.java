@@ -101,7 +101,6 @@ public class DictServiceImpl implements DictService {
         commonDict.setDisabled(DisabledEnum.ENABLED.getCode());
         commonDict.setCreater(1L);
         commonDict.setVersion(1L);
-        commonDict.setCreater(null);
         commonDict.setCreateTime(new Timestamp(System.currentTimeMillis()));
         commonDictMapperExt.insert(commonDict);
         Long selfId = commonDict.getDictId();
@@ -115,18 +114,21 @@ public class DictServiceImpl implements DictService {
             commonDictTreePathNew.setDisabled(DisabledEnum.ENABLED.getCode());
             commonDictTreePathNew.setCreater(1L);
             commonDictTreePathNew.setVersion(1L);
-            commonDictTreePathNew.setCreater(null);
             commonDictTreePathNew.setCreateTime(new Timestamp(System.currentTimeMillis()));
-            commonDictTreePathNew.setPathLength(commonDictTreePathOld.getPathLength() + 1);
+            int newPathLength = commonDictTreePathOld.getPathLength() + 1;
+            commonDictTreePathNew.setPathLength(newPathLength);
+            //sortNo计算:以此时的ancDictId为祖先，此时的pathLength，查询出最大的sortNo，再加1为新路径的sortNo
+            Integer sortNo = commonDictTreePathMapperExt.findMaxSortNoByAncDictIdAndPathLenth(commonDictTreePathOld.getAncDictId(), newPathLength);
+            commonDictTreePathNew.setSortNo(sortNo + 1);
             commonDictTreePathMapperExt.insert(commonDictTreePathNew);
         }
         //添加自身到自身的关系
         CommonDictTreePath commonDictTreePath = new CommonDictTreePath();
         commonDictTreePath.setAncDictId(selfId);
         commonDictTreePath.setDesDictId(selfId);
+        commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
         commonDictTreePath.setCreater(1L);
         commonDictTreePath.setVersion(1L);
-        commonDictTreePath.setDisabled(DisabledEnum.ENABLED.getCode());
         commonDictTreePath.setCreateTime(new Timestamp(System.currentTimeMillis()));
         commonDictTreePath.setPathLength(0);
         commonDictTreePathMapperExt.insert(commonDictTreePath);
