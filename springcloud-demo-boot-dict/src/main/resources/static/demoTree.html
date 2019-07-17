@@ -70,7 +70,8 @@
                                 var arr = {
                                     "id": arrays[i].id,
                                     "parent": arrays[i].parent === "#" ? "#" : arrays[i].parent,
-                                    "text": arrays[i].text
+                                    "text": arrays[i].text,
+                                    "li_attr": arrays[i].li_attr
                                 }
                                 jsonarray.push(arr);
                             }
@@ -103,7 +104,8 @@
 
             'sort': function (a, b) {
                 // return this.get_type(a) === this.get_type(b) ? (this.get_text(a) > this.get_text(b) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
-                return this.get_type(a) === this.get_type(b) ? (parseInt(this.get_json(a).id) > parseInt(this.get_json(b).id) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+                // return this.get_type(a) === this.get_type(b) ? (parseInt(this.get_json(a).id) > parseInt(this.get_json(b).id) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+                return this.get_type(a) === this.get_type(b) ? (parseInt(this.get_json(a).li_attr.sortNo) > parseInt(this.get_json(b).li_attr.sortNo) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
             },
 
             "checkbox": {

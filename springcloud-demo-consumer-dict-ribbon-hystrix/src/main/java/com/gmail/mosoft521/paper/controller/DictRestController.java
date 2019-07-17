@@ -23,7 +23,9 @@ import org.springframework.web.client.RestTemplate;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -89,6 +91,9 @@ public class DictRestController {
         treeVo.setParent("#");
         treeVo.setText(commonDictSelf.getDictCodeText());
         treeVo.setState("open");
+        Map<String,String> liAttr = new HashMap<String,String>();
+        liAttr.put("sortNo","0");
+        treeVo.setLi_attr(liAttr);
         treeVoList.add(treeVo);
 
         CommonDictTreePathExt[] commonDictTreePathExts = this.restTemplate.getForObject("http://springcloud-demo-provider-dict/findAllByPathLenth/1", CommonDictTreePathExt[].class);
@@ -100,6 +105,9 @@ public class DictRestController {
             treeVo.setParent(commonDictTreePathExt.getAncDictId().toString());
             treeVo.setText(commonDictTreePathExt.getDesDictCodeText());
             treeVo.setState("open");
+            liAttr = new HashMap<String,String>();
+            liAttr.put("sortNo",commonDictTreePathExt.getSortNo().toString());
+            treeVo.setLi_attr(liAttr);
             treeVoList.add(treeVo);
         }
         return treeVoList;
