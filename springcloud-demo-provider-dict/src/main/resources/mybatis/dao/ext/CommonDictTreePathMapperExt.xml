@@ -68,7 +68,7 @@
             inner join common_dict d2 ON dtp.des_dict_id = d2.dict_id
             WHERE
             dtp.path_length = #{pathLength,jdbcType=INTEGER}
-            order by dtp.anc_dict_id, dtp.des_dict_id, dtp.sort_no
+            order by dtp.anc_dict_id, dtp.sort_no
     </select>
 
     <select id="findMaxSortNoByAncDictIdAndPathLenth" resultType="Integer">
