@@ -84,7 +84,7 @@
                     console.log('check_callback operation= ' + operation + ', node= ' + node.text + ', node_parent= ' + node_parent.text + ', node_position= ' + node_position + ', more= ' + more);
                     if (operation === "move_node") {
                         var node1 = this.get_node(node);
-                        if (node1.id === "#") {
+                        if (node1.parent === "#") {
                             alert("根结点不可以移动");
                             return false;
                         }
@@ -94,8 +94,12 @@
                         }
                     } else if (operation === "delete_node") {
                         var node1 = this.get_node(node);
-                        if (node1.id === "#") {
+                        if (node1.parent === "#") {
                             alert("根结点不可以删除");
+                            return false;
+                        }
+                        if (node.state.disabled) {
+                            alert("禁用的不可以删除");
                             return false;
                         }
                     }
