@@ -3,6 +3,7 @@ package com.gmail.mosoft521.paper.controller;
 import com.gmail.mosoft521.paper.dto.BaseDTO;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
+import com.gmail.mosoft521.paper.vo.TreeState;
 import com.gmail.mosoft521.paper.vo.TreeVo;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.slf4j.Logger;
@@ -90,7 +91,11 @@ public class DictRestController {
         treeVo.setId(commonDictSelf.getDictId().toString());
         treeVo.setParent("#");
         treeVo.setText(commonDictSelf.getDictCodeText());
-        treeVo.setState("open");
+        TreeState state = new TreeState();
+        state.setOpened(true);
+        state.setDisabled(true);
+        state.setSelected(false);
+        treeVo.setState(state);
         Map<String,String> liAttr = new HashMap<String,String>();
         liAttr.put("sortNo","0");
         treeVo.setLi_attr(liAttr);
@@ -104,7 +109,11 @@ public class DictRestController {
             treeVo.setId(commonDictTreePathExt.getDesDictId().toString());
             treeVo.setParent(commonDictTreePathExt.getAncDictId().toString());
             treeVo.setText(commonDictTreePathExt.getDesDictCodeText());
-            treeVo.setState("open");
+            state = new TreeState();
+            state.setOpened(true);
+            state.setDisabled(false);
+            state.setSelected(false);
+            treeVo.setState(state);
             liAttr = new HashMap<String,String>();
             liAttr.put("sortNo",commonDictTreePathExt.getSortNo().toString());
             treeVo.setLi_attr(liAttr);
@@ -123,7 +132,11 @@ public class DictRestController {
             treeVo.setId(commonDict.getDictId().toString());
             treeVo.setParent(parentDictId.toString());
             treeVo.setText(commonDict.getDictCodeText());
-            treeVo.setState("open");
+            TreeState state = new TreeState();
+            state.setOpened(true);
+            state.setDisabled(false);
+            state.setSelected(false);
+            treeVo.setState(state);
 
             treeVoList.add(treeVo);
             treeVoList.addAll(expand(commonDict.getDictId()));
@@ -137,7 +150,11 @@ public class DictRestController {
         treeVo.setId("1");
         treeVo.setParent("#");
         treeVo.setText("DEFAULT");
-        treeVo.setState("open");
+        TreeState state = new TreeState();
+        state.setOpened(false);
+        state.setDisabled(false);
+        state.setSelected(false);
+        treeVo.setState(state);
         treeVoList.add(treeVo);
         return treeVoList;
     }

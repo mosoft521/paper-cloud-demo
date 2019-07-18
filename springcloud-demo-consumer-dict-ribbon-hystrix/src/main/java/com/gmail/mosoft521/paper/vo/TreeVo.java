@@ -23,9 +23,9 @@ public class TreeVo implements Serializable {
     private String parent;
     private String text;
     private String icon;
-    private String state;
-    private Map<String,String> li_attr;
-    private Map<String,String> a_attr;
+    private TreeState state;
+    private Map<String, String> li_attr;
+    private Map<String, String> a_attr;
 
     public TreeVo() {
     }
@@ -62,11 +62,11 @@ public class TreeVo implements Serializable {
         this.icon = icon;
     }
 
-    public String getState() {
+    public TreeState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(TreeState state) {
         this.state = state;
     }
 

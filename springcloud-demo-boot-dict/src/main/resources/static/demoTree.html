@@ -34,7 +34,7 @@
 <body>
 
 <h1>数据字典微服务</h1>
-<div id="deptTree" class="demo"></div>
+<div id="demoTree" class="demo"></div>
 
 <script src="jquery-3.3.1.js"></script>
 <script src="./jstree/jstree.js"></script>
@@ -42,9 +42,9 @@
 <script>
     $(function () {
         //这个是关键，如果不清空实例，jstree不会重新生成
-        $('#deptTree').data('jstree', false).empty();
+        $('#demoTree').data('jstree', false).empty();
 
-        $('#deptTree').jstree({
+        $('#demoTree').jstree({
             'core': {
                 // so that create works
                 "check_callback": true,
@@ -71,6 +71,7 @@
                                     "id": arrays[i].id,
                                     "parent": arrays[i].parent === "#" ? "#" : arrays[i].parent,
                                     "text": arrays[i].text,
+                                    "state":arrays[i].state,
                                     "li_attr": arrays[i].li_attr
                                 }
                                 jsonarray.push(arr);
@@ -174,7 +175,7 @@
                 // "massload", //惯性负载插件
                 "search",
                 "sort",
-                "state", //状态插件
+                // "state", //状态插件
                 "types", //类型插件
                 "unique",
                 // "wholerow", //整行插件
@@ -202,7 +203,7 @@
                 async: false,
                 success: function (result) {
                     console.log("新建结点" + result.id);
-                    var ref = $('#deptTree').jstree(true);
+                    var ref = $('#demoTree').jstree(true);
                     ref.refresh();
                     ref.open_all();
                 },
@@ -224,7 +225,7 @@
                 success: function (result) {
                     // console.log("删除结点" + result);//返回String时用
                     console.log("修改结点" + result.message);//返回json时用
-                    var ref = $('#deptTree').jstree(true);
+                    var ref = $('#demoTree').jstree(true);
                     ref.refresh();
                     ref.open_all();
                 },
@@ -245,7 +246,7 @@
                 success: function (result) {
                     // console.log("删除结点" + result);//返回String时用
                     console.log("删除结点" + result.message);//返回json时用
-                    var ref = $('#deptTree').jstree(true);
+                    var ref = $('#demoTree').jstree(true);
                     ref.refresh();
                     ref.open_all();
                 },
@@ -266,7 +267,7 @@
                 success: function (result) {
                     // console.log("移动结点" + result);//返回String时用
                     console.log("移动结点" + result.message);//返回json时用
-                    var ref = $('#deptTree').jstree(true);
+                    var ref = $('#demoTree').jstree(true);
                     ref.refresh();
                     ref.open_all();
                 },
@@ -275,7 +276,7 @@
                 }
             });
         }).on("ready.jstree", function (e, data) {
-            var ref = $('#deptTree').jstree(true);
+            var ref = $('#demoTree').jstree(true);
             ref.open_all();
         });
 
