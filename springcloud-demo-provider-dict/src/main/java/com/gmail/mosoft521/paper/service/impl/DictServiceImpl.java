@@ -9,6 +9,8 @@ import com.gmail.mosoft521.paper.entity.CommonDictTreePath;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExample;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.service.DictService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.Map;
 @Service
 public class DictServiceImpl implements DictService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DictServiceImpl.class);
 
     @Autowired
     private CommonDictMapperExt commonDictMapperExt;
@@ -37,6 +40,7 @@ public class DictServiceImpl implements DictService {
 
     @Override
     public List<CommonDictTreePathExt> findAllByPathLenth(Integer pathLength) {
+        LOG.info("invoke DictService.findAllByPathLenth()");
         return commonDictTreePathMapperExt.findAllByPathLenth(pathLength);
     }
 
