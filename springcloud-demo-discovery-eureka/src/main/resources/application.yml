@@ -4,6 +4,8 @@ spring:
   application:
     name: springcloud-demo-discovery-eureka
 eureka:
+#  server:
+#    enableSelfPreservation: false                           #关闭自我保护
   client:
     registerWithEureka: false
     fetchRegistry: false
