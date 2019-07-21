@@ -3,7 +3,10 @@ package com.gmail.mosoft521.paper.controller;
 import com.gmail.mosoft521.paper.entity.CommonDict;
 import com.gmail.mosoft521.paper.entity.CommonDictTreePathExt;
 import com.gmail.mosoft521.paper.service.DictService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +19,14 @@ import java.util.List;
 
 @RestController
 public class DictController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DictController.class);
+
     @Autowired
     private DictService dictService;
+
+    @Value("${from}")
+    private String from;
 
     @GetMapping("/findCommonDictByDictId/{id}")
     public CommonDict findCommonDictByDictId(@PathVariable Long id) {
@@ -58,6 +67,7 @@ public class DictController {
     @PutMapping("/modifyDict")
     public CommonDict modifyCommonDict(@RequestBody CommonDict commonDict) {
         CommonDict commonDictResult = this.dictService.modifyCommonDict(commonDict);
+        LOG.info("modifyDict by " + from);
         return commonDictResult;
     }
 
