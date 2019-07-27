@@ -25,11 +25,13 @@ eureka:
     hostname: peer1                                                     # 指定当profile=peer1时，主机名是peer1
     #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+    lease-renewal-interval-in-seconds: 5                                #租期更新时间间隔（默认30秒）
+    lease-expiration-duration-in-seconds: 15                            #租期到期时间（默认90秒）不怕出错的话，时间可以更短
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://peer2:8762/eureka/                             # 将自己注册到peer2这个Eureka上面去
+      defaultZone: http://peer2:8762/eureka/                            # 将自己注册到peer2这个Eureka上面去
 ---
 spring:
   profiles: peer2
@@ -40,6 +42,8 @@ eureka:
     hostname: peer2
     #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+    lease-renewal-interval-in-seconds: 5                                #租期更新时间间隔（默认30秒）
+    lease-expiration-duration-in-seconds: 15                            #租期到期时间（默认90秒）不怕出错的话，时间可以更短
   client:
     registerWithEureka: true
     fetchRegistry: true

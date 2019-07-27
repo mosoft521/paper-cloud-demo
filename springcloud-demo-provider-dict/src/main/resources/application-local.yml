@@ -17,11 +17,13 @@ spring:
 eureka:
   instance:
     #    prefer-ip-address: true                                            #unavailable-replicas not to available-replicas
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}            # 将Instance ID设置成IP:端口的形式
+    lease-renewal-interval-in-seconds: 5                                    #租期更新时间间隔（默认30秒）
+    lease-expiration-duration-in-seconds: 15                                #租期到期时间（默认90秒）不怕出错的话，时间可以更短
   client:
     serviceUrl:
       #      defaultZone: http://localhost:8761/eureka/                         #localhost
-      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
+      defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/      #HA
 ## INFO
 info:
   app:

@@ -10,7 +10,9 @@ eureka:
       defaultZone: http://peer1:8761/eureka/,http://peer2:8762/eureka/    #HA
   instance:
     #    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port}        # 将Instance ID设置成IP:端口的形式
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}          # 将Instance ID设置成IP:端口的形式
+    lease-renewal-interval-in-seconds: 5                                  #租期更新时间间隔（默认30秒）
+    lease-expiration-duration-in-seconds: 15                              #租期到期时间（默认90秒）不怕出错的话，时间可以更短
 hystrix:
   command:
     default:
